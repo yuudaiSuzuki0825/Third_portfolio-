@@ -3,13 +3,23 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Task from "../components/Task";
 import { v4 as uuidv4 } from "uuid";
+import { TextField, Button } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) =>
+    createStyles({
+        textArea: {
+            marginRight: theme.spacing(2),
+        },
+    })
+);
 
 let datas = { name: "", content: "" };
 
 function TopPage() {
     const [tasks, setTasks] = useState([]);
 
-    // const [count, setCount] = useState(0);
+    const classes = useStyles();
 
     const [formData, setFormData] = useState({ title: "", content: "" });
 
@@ -76,7 +86,7 @@ function TopPage() {
     return (
         <div className="container">
             <h1>todoApp</h1>
-            <form>
+            {/* <form>
                 <label>
                     タイトル
                     <input
@@ -101,6 +111,34 @@ function TopPage() {
                 <button type="submit" href="/" onClick={createTask}>
                     作成
                 </button>
+            </form> */}
+            <form>
+                <TextField
+                    id="name"
+                    label="title"
+                    variant="outlined"
+                    name="title"
+                    className={classes.textArea}
+                    value={formData.title}
+                    onChange={inputChange}
+                />
+                <TextField
+                    id="content"
+                    label="content"
+                    variant="outlined"
+                    name="content"
+                    className={classes.textArea}
+                    value={formData.content}
+                    onChange={inputChange}
+                />
+                <Button
+                    color="primary"
+                    variant="contained"
+                    href="/"
+                    onClick={createTask}
+                >
+                    作成
+                </Button>
             </form>
             <ul>
                 <li>

@@ -5,10 +5,16 @@ const Task = ({ task, deleteTask }) => {
         deleteTask(task.id);
     };
     return (
-        <div>
-            {task.title}:{task.content}:
-            <button onClick={completed}>完了</button>
-            <a href={`/edit/${task.id}`}>更新</a>
+        <div className="container">
+            <ul className="parent">
+                <li>{task.title}</li>
+                <li>{task.content}</li>
+                <li>
+                    <button onClick={completed}>完了</button>
+                </li>
+                {/* <button onClick={completed}>完了</button> */}
+                {/* <a href={`/edit/${task.id}`}>更新</a> */}
+            </ul>
         </div>
     );
 };

@@ -1,2 +1,41 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+li {
+  list-style: none;
+}
 
+.container {
+  max-width: 800px;
+  margin: 30px auto 0;
+}
+
+.parent {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #d5d3d3;
+  box-shadow: 0px 0px 15px -5px #777777;
+  border-radius: 2px;
+}
+
+.parent li:first-child {
+  margin-right: 30px;
+}
+
+.parent li:last-child {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.parent li {
+  word-break: break-all;
+  line-height: 2.4;
+}
+
+.parent li button {
+  margin-top: 4px;
+  height: 34px;
+  width: 50px;
+  background-color: #3cb371;
+  color: #fff;
+  border-radius: 4px;
+}
