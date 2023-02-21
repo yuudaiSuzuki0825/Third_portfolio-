@@ -18894,6 +18894,7 @@ var datas = {
   name: "",
   content: ""
 };
+var flg = false;
 function TopPage() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
@@ -18907,6 +18908,11 @@ function TopPage() {
     _useState4 = _slicedToArray(_useState3, 2),
     formData = _useState4[0],
     setFormData = _useState4[1];
+
+  // DOM操作。
+  var title = document.getElementById("title");
+  var content = document.getElementById("content");
+  var button = document.getElementById("button");
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     getTasksData();
   }, []);
@@ -18984,19 +18990,44 @@ function TopPage() {
       return _ref2.apply(this, arguments);
     };
   }();
+  var keydownEvent = function keydownEvent(e) {
+    if (e.code == "ArrowRight" && title.selectionStart == title.value.length) {
+      flg = true;
+      console.log("hoge");
+    }
+  };
+  var keyUpEvent = function keyUpEvent(e) {
+    if (e.code == "ArrowRight" && flg) {
+      flg = false;
+      content.focus();
+      content.setSelectionRange(content.value.length, content.value.length);
+    }
+  };
+  var keydownEvent2 = function keydownEvent2(e) {
+    if (e.code == "ArrowRight" && content.selectionStart == content.value.length) {
+      flg = true;
+    }
+  };
+  var keyUpEvent2 = function keyUpEvent2(e) {
+    if (e.code == "ArrowRight" && flg) {
+      button.focus();
+    }
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
       children: "todoApp"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        id: "name",
+        id: "title",
         label: "title",
         variant: "outlined",
         name: "title",
         className: classes.textArea,
         value: formData.title,
-        onChange: inputChange
+        onChange: inputChange,
+        onKeyDown: keydownEvent,
+        onKeyUp: keyUpEvent
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__["default"], {
         id: "content",
         label: "content",
@@ -19004,8 +19035,11 @@ function TopPage() {
         name: "content",
         className: classes.textArea,
         value: formData.content,
-        onChange: inputChange
+        onChange: inputChange,
+        onKeyDown: keydownEvent2,
+        onKeyUp: keyUpEvent2
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        id: "button",
         color: "primary",
         variant: "contained",
         href: "/",
