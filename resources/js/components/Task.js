@@ -12,8 +12,6 @@ const Task = ({ task, deleteTask }) => {
                 <li>
                     <button onClick={completed}>完了</button>
                 </li>
-                {/* <button onClick={completed}>完了</button> */}
-                {/* <a href={`/edit/${task.id}`}>更新</a> */}
             </ul>
         </div>
     );

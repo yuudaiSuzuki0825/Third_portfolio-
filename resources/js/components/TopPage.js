@@ -16,12 +16,19 @@ const useStyles = makeStyles((theme) =>
 
 let datas = { name: "", content: "" };
 
+let flg = false;
+
 function TopPage() {
     const [tasks, setTasks] = useState([]);
 
     const classes = useStyles();
 
     const [formData, setFormData] = useState({ title: "", content: "" });
+
+    // DOM操作。
+    const title = document.getElementById("title");
+    const content = document.getElementById("content");
+    const button = document.getElementById("button");
 
     useEffect(() => {
         getTasksData();
@@ -83,44 +90,56 @@ function TopPage() {
             });
     };
 
+    const keydownEvent = (e) => {
+        if (
+            e.code == "ArrowRight" &&
+            title.selectionStart == title.value.length
+        ) {
+            flg = true;
+            console.log("hoge");
+        }
+    };
+
+    const keyUpEvent = (e) => {
+        if (e.code == "ArrowRight" && flg) {
+            flg = false;
+            content.focus();
+            content.setSelectionRange(
+                content.value.length,
+                content.value.length
+            );
+        }
+    };
+
+    const keydownEvent2 = (e) => {
+        if (
+            e.code == "ArrowRight" &&
+            content.selectionStart == content.value.length
+        ) {
+            flg = true;
+        }
+    };
+
+    const keyUpEvent2 = (e) => {
+        if (e.code == "ArrowRight" && flg) {
+            button.focus();
+        }
+    };
+
     return (
         <div className="container">
             <h1>todoApp</h1>
-            {/* <form>
-                <label>
-                    タイトル
-                    <input
-                        type="text"
-                        name="title"
-                        id="title"
-                        value={formData.title}
-                        onChange={inputChange}
-                    />
-                </label>
-                <label>
-                    本文
-                    <textarea
-                        value={formData.content}
-                        name="content"
-                        id="content"
-                        onChange={inputChange}
-                    >
-                        {formData.content}
-                    </textarea>
-                </label>
-                <button type="submit" href="/" onClick={createTask}>
-                    作成
-                </button>
-            </form> */}
             <form>
                 <TextField
-                    id="name"
+                    id="title"
                     label="title"
                     variant="outlined"
                     name="title"
                     className={classes.textArea}
                     value={formData.title}
                     onChange={inputChange}
+                    onKeyDown={keydownEvent}
+                    onKeyUp={keyUpEvent}
                 />
                 <TextField
                     id="content"
@@ -130,8 +149,11 @@ function TopPage() {
                     className={classes.textArea}
                     value={formData.content}
                     onChange={inputChange}
+                    onKeyDown={keydownEvent2}
+                    onKeyUp={keyUpEvent2}
                 />
                 <Button
+                    id="button"
                     color="primary"
                     variant="contained"
                     href="/"
