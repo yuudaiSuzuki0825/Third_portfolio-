@@ -10,7 +10,9 @@ const Task = ({ task, deleteTask }) => {
                 <li>{task.title}</li>
                 <li>{task.content}</li>
                 <li>
-                    <button onClick={completed}>完了</button>
+                    <button onClick={completed}>
+                        <i class="fa-solid fa-check"></i>
+                    </button>
                 </li>
             </ul>
         </div>
