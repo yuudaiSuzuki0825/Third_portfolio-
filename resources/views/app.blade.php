@@ -23,5 +23,6 @@
 <body>
     <div id="app">
     </div>
+    <script src="https://kit.fontawesome.com/efd87fdfef.js" crossorigin="anonymous"></script>
 </body>
 </html>

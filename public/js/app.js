@@ -18833,7 +18833,9 @@ var Task = function Task(_ref) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
           onClick: completed,
-          children: "\u5B8C\u4E86"
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+            "class": "fa-solid fa-check"
+          })
         })
       })]
     })
@@ -19007,10 +19009,30 @@ function TopPage() {
     if (e.code == "ArrowRight" && content.selectionStart == content.value.length) {
       flg = true;
     }
+    if (e.code == "ArrowLeft" && content.selectionStart == 0) {
+      flg = true;
+    }
   };
   var keyUpEvent2 = function keyUpEvent2(e) {
     if (e.code == "ArrowRight" && flg) {
       button.focus();
+    }
+    if (e.code == "ArrowLeft" && flg) {
+      flg = false;
+      title.focus();
+      title.setSelectionRange(title.value.length, title.value.length);
+    }
+  };
+  var keydownEvent3 = function keydownEvent3(e) {
+    if (e.code == "ArrowLeft") {
+      flg = true;
+    }
+  };
+  var keyUpEvent3 = function keyUpEvent3(e) {
+    if (e.code == "ArrowLeft" && flg) {
+      flg = false;
+      content.focus();
+      content.setSelectionRange(content.value.length, content.value.length);
     }
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -19044,6 +19066,8 @@ function TopPage() {
         variant: "contained",
         href: "/",
         onClick: createTask,
+        onKeyDown: keydownEvent3,
+        onKeyUp: keyUpEvent3,
         children: "\u4F5C\u6210"
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {

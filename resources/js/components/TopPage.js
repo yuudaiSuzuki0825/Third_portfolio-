@@ -118,11 +118,36 @@ function TopPage() {
         ) {
             flg = true;
         }
+        if (e.code == "ArrowLeft" && content.selectionStart == 0) {
+            flg = true;
+        }
     };
 
     const keyUpEvent2 = (e) => {
         if (e.code == "ArrowRight" && flg) {
             button.focus();
+        }
+        if (e.code == "ArrowLeft" && flg) {
+            flg = false;
+            title.focus();
+            title.setSelectionRange(title.value.length, title.value.length);
+        }
+    };
+
+    const keydownEvent3 = (e) => {
+        if (e.code == "ArrowLeft") {
+            flg = true;
+        }
+    };
+
+    const keyUpEvent3 = (e) => {
+        if (e.code == "ArrowLeft" && flg) {
+            flg = false;
+            content.focus();
+            content.setSelectionRange(
+                content.value.length,
+                content.value.length
+            );
         }
     };
 
@@ -158,6 +183,8 @@ function TopPage() {
                     variant="contained"
                     href="/"
                     onClick={createTask}
+                    onKeyDown={keydownEvent3}
+                    onKeyUp={keyUpEvent3}
                 >
                     作成
                 </Button>
