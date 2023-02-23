@@ -7,6 +7,10 @@
 // Bootstrap。今回はCSSを適用させる。
 // @import '~bootstrap/scss/bootstrap';
 
+html {
+    font-size: 100%;
+}
+
 li {
     list-style: none;
 }
@@ -23,35 +27,35 @@ li {
     background-color: #fff;
     box-shadow: 0px 0px 15px -5px #777777;
     border-radius: 2px;
-}
 
-.parent li:first-child {
-    margin-left: 5px;
-    margin-right: 30px;
-}
+    li {
+        word-break: break-all;
+        line-height: 2.2;
 
-.parent li:last-child {
-    margin-left: auto;
-    margin-right: 10px;
-}
+        button {
+            margin-top: 4px;
+            height: 32px;
+            width: 50px;
+            background-color: #3cb371;
+            color: #fff;
+            border-radius: 4px;
+            box-shadow: 0px 0px 15px -5px #359e64;
 
-.parent li {
-    word-break: break-all;
-    line-height: 2.2;
-}
+            &:hover {
+                background-color: #50eb95;
+            }
+        }
+    }
 
-.parent li button {
-    margin-top: 4px;
-    height: 32px;
-    width: 50px;
-    background-color: #3cb371;
-    color: #fff;
-    border-radius: 4px;
-    box-shadow: 0px 0px 15px -5px #359e64;
-}
+    li:first-child {
+        margin-left: 5px;
+        margin-right: 30px;
+    }
 
-.parent li button:hover {
-    background-color: #50eb95;
+    li:last-child {
+        margin-left: auto;
+        margin-right: 10px;
+    }
 }
 
 @media screen and (max-width: 850px) {
