@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) =>
 
 let flg = false;
 
-const CreateForm = ({ inputChange, createTask, formData, setFormData }) => {
+const CreateForm = ({ inputChange, createTask, formData }) => {
     // DOM操作。
     const title = document.getElementById("title");
     const content = document.getElementById("content");
