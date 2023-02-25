@@ -27,8 +27,17 @@ class TaskController extends Controller
     public function delete(Request $request)
     {
         $task = Task::find($request->id);
+        $count = new Count;
+        $count->title = $task->title;
+        $count->content = $task->content;
+        $count->save();
         $task->delete();
         $tasks = Task::all();
         return response()->json($tasks, 200);
+    }
+
+    public function count() {
+        $count = Count::count();
+        return response()->json($count, 200);
     }
 }
