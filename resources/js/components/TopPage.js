@@ -4,8 +4,8 @@ import axios from "axios";
 import Task from "../components/Task";
 import CreateForm from "./CreateForm";
 import { v4 as uuidv4 } from "uuid";
-import { TextField, Button } from "@material-ui/core";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
+// import { TextField, Button } from "@material-ui/core";
+// import { makeStyles, createStyles } from "@material-ui/core/styles";
 
 // const useStyles = makeStyles((theme) =>
 //     createStyles({
@@ -174,7 +174,6 @@ function TopPage() {
                 inputChange={(e) => inputChange(e)}
                 createTask={createTask}
                 formData={formData}
-                setFormData={setFormData}
             />
             {/* <form>
                 <TextField
