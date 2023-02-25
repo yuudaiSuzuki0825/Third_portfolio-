@@ -1,37 +1,40 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 // axios（アクシオス）のインポート。
 import axios from "axios";
 import Task from "../components/Task";
+import CreateForm from "./CreateForm";
 import { v4 as uuidv4 } from "uuid";
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) =>
-    createStyles({
-        textArea: {
-            marginRight: theme.spacing(2),
-        },
-    })
-);
+// const useStyles = makeStyles((theme) =>
+//     createStyles({
+//         textArea: {
+//             marginRight: theme.spacing(2),
+//         },
+//     })
+// );
 
 let datas = { name: "", content: "" };
 
-let flg = false;
+// let flg = false;
 
 function TopPage() {
     const [tasks, setTasks] = useState([]);
+    const [count, setCount] = useState(0);
 
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const [formData, setFormData] = useState({ title: "", content: "" });
 
     // DOM操作。
-    const title = document.getElementById("title");
-    const content = document.getElementById("content");
-    const button = document.getElementById("button");
+    // const title = document.getElementById("title");
+    // const content = document.getElementById("content");
+    // const button = document.getElementById("button");
 
     useEffect(() => {
         getTasksData();
+        getCountData();
     }, []);
 
     const getTasksData = () => {
@@ -39,8 +42,19 @@ function TopPage() {
             .get("/api/tasks")
             .then((res) => {
                 setTasks(res.data);
-                // setCount(res.data[1].count);
+            })
+            .catch(() => {
+                // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
+                console.log("通信に失敗しました");
+            });
+    };
+
+    const getCountData = () => {
+        axios
+            .get("/api/count")
+            .then((res) => {
                 console.log(res.data);
+                setCount(res.data);
             })
             .catch(() => {
                 // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
@@ -88,73 +102,81 @@ function TopPage() {
             .catch((error) => {
                 console.log(error);
             });
+        getCountData();
     };
 
-    const keydownEvent = (e) => {
-        if (
-            e.code == "ArrowRight" &&
-            title.selectionStart == title.value.length
-        ) {
-            flg = true;
-            console.log("hoge");
-        }
-    };
+    // const keydownEvent = (e) => {
+    //     if (
+    //         e.code == "ArrowRight" &&
+    //         title.selectionStart == title.value.length
+    //     ) {
+    //         flg = true;
+    //         console.log("hoge");
+    //     }
+    // };
 
-    const keyUpEvent = (e) => {
-        if (e.code == "ArrowRight" && flg) {
-            flg = false;
-            content.focus();
-            content.setSelectionRange(
-                content.value.length,
-                content.value.length
-            );
-        }
-    };
+    // const keyUpEvent = (e) => {
+    //     if (e.code == "ArrowRight" && flg) {
+    //         flg = false;
+    //         content.focus();
+    //         content.setSelectionRange(
+    //             content.value.length,
+    //             content.value.length
+    //         );
+    //     }
+    // };
 
-    const keydownEvent2 = (e) => {
-        if (
-            e.code == "ArrowRight" &&
-            content.selectionStart == content.value.length
-        ) {
-            flg = true;
-        }
-        if (e.code == "ArrowLeft" && content.selectionStart == 0) {
-            flg = true;
-        }
-    };
+    // const keydownEvent2 = (e) => {
+    //     if (
+    //         e.code == "ArrowRight" &&
+    //         content.selectionStart == content.value.length
+    //     ) {
+    //         flg = true;
+    //     }
+    //     if (e.code == "ArrowLeft" && content.selectionStart == 0) {
+    //         flg = true;
+    //     }
+    // };
 
-    const keyUpEvent2 = (e) => {
-        if (e.code == "ArrowRight" && flg) {
-            button.focus();
-        }
-        if (e.code == "ArrowLeft" && flg) {
-            flg = false;
-            title.focus();
-            title.setSelectionRange(title.value.length, title.value.length);
-        }
-    };
+    // const keyUpEvent2 = (e) => {
+    //     if (e.code == "ArrowRight" && flg) {
+    //         button.focus();
+    //     }
+    //     if (e.code == "ArrowLeft" && flg) {
+    //         flg = false;
+    //         title.focus();
+    //         title.setSelectionRange(title.value.length, title.value.length);
+    //     }
+    // };
 
-    const keydownEvent3 = (e) => {
-        if (e.code == "ArrowLeft") {
-            flg = true;
-        }
-    };
+    // const keydownEvent3 = (e) => {
+    //     if (e.code == "ArrowLeft") {
+    //         flg = true;
+    //     }
+    // };
 
-    const keyUpEvent3 = (e) => {
-        if (e.code == "ArrowLeft" && flg) {
-            flg = false;
-            content.focus();
-            content.setSelectionRange(
-                content.value.length,
-                content.value.length
-            );
-        }
-    };
+    // const keyUpEvent3 = (e) => {
+    //     if (e.code == "ArrowLeft" && flg) {
+    //         flg = false;
+    //         content.focus();
+    //         content.setSelectionRange(
+    //             content.value.length,
+    //             content.value.length
+    //         );
+    //     }
+    // };
 
     return (
         <div className="container">
             <h1>todoApp</h1>
-            <form>
+            <h2>number-completed:{count}</h2>
+            <CreateForm
+                inputChange={(e) => inputChange(e)}
+                createTask={createTask}
+                formData={formData}
+                setFormData={setFormData}
+            />
+            {/* <form>
                 <TextField
                     id="title"
                     label="title"
@@ -188,7 +210,7 @@ function TopPage() {
                 >
                     作成
                 </Button>
-            </form>
+            </form> */}
             <ul>
                 <li>
                     {tasks.map((task) => (
