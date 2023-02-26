@@ -3,15 +3,14 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 // TopPageをインポート。
 import TopPage from "./components/TopPage";
-// EditPageをインポート。
-// import EditPage from "./components/EditPage";
+import { NotFound } from "./components/NotFound";
 
 function App() {
     return (
         <div>
             <Switch>
                 <Route path="/" exact component={TopPage} />
-                {/* <Route path="/edit/:id" exact component={EditPage} /> */}
+                <Route component={NotFound} />
             </Switch>
         </div>
     );
