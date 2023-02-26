@@ -10,8 +10,6 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-// let datas = { name: "", content: "" };
-
 let flg = false;
 
 const CreateForm = ({ inputChange, createTask, formData }) => {
@@ -21,8 +19,6 @@ const CreateForm = ({ inputChange, createTask, formData }) => {
     const button = document.getElementById("button");
 
     const classes = useStyles();
-
-    // const [formData, setFormData] = useState({ title: "", content: "" });
 
     const Change = (e) => {
         inputChange(e);
