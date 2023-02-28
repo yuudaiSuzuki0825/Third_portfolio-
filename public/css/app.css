@@ -1,6 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
 html {
   font-size: 100%;
+  color: #333333;
 }
 
 li {
@@ -10,6 +11,20 @@ li {
 .container {
   max-width: 800px;
   margin: 30px auto 0;
+}
+.container .appTitle {
+  font-size: 4rem;
+  text-decoration: none;
+  color: #333333;
+  font-family: "Genos", sans-serif;
+}
+.container .numberCompleted {
+  font-size: 2rem;
+  font-family: "Genos", sans-serif;
+}
+.container .NotFound {
+  font-size: 2rem;
+  font-family: "Genos", sans-serif;
 }
 
 .parent {
@@ -22,11 +37,12 @@ li {
 }
 .parent li {
   word-break: break-all;
-  line-height: 2.2;
+  line-height: 1.8;
+  font-size: 1.175rem;
 }
 .parent li button {
   margin-top: 4px;
-  height: 32px;
+  height: 30px;
   width: 50px;
   background-color: #3cb371;
   color: #fff;
