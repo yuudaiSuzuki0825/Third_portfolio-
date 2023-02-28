@@ -18918,7 +18918,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var NotFound = function NotFound() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    children: "NotFound"
+    className: "NotFound",
+    children: "Not Found"
   });
 };
 
@@ -19003,25 +19004,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-// import { TextField, Button } from "@material-ui/core";
-// import { makeStyles, createStyles } from "@material-ui/core/styles";
 
-// const useStyles = makeStyles((theme) =>
-//     createStyles({
-//         textArea: {
-//             marginRight: theme.spacing(2),
-//         },
-//     })
-// );
 
 
 var datas = {
   name: "",
   content: ""
 };
-
-// let flg = false;
-
 function TopPage() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
@@ -19031,9 +19020,6 @@ function TopPage() {
     _useState4 = _slicedToArray(_useState3, 2),
     count = _useState4[0],
     setCount = _useState4[1];
-
-  // const classes = useStyles();
-
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       title: "",
       content: ""
@@ -19041,18 +19027,13 @@ function TopPage() {
     _useState6 = _slicedToArray(_useState5, 2),
     formData = _useState6[0],
     setFormData = _useState6[1];
-
-  // DOM操作。
-  // const title = document.getElementById("title");
-  // const content = document.getElementById("content");
-  // const button = document.getElementById("button");
-
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    getTasksData();
     getCountData();
+    getTasksData();
   }, []);
   var getTasksData = function getTasksData() {
     axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/tasks").then(function (res) {
+      // console.log(res.data);
       setTasks(res.data);
     })["catch"](function () {
       // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
@@ -19061,7 +19042,7 @@ function TopPage() {
   };
   var getCountData = function getCountData() {
     axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/count").then(function (res) {
-      console.log(res.data);
+      // console.log(res.data);
       setCount(res.data);
     })["catch"](function () {
       // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
@@ -19134,73 +19115,9 @@ function TopPage() {
       return _ref2.apply(this, arguments);
     };
   }();
-
-  // const keydownEvent = (e) => {
-  //     if (
-  //         e.code == "ArrowRight" &&
-  //         title.selectionStart == title.value.length
-  //     ) {
-  //         flg = true;
-  //         console.log("hoge");
-  //     }
-  // };
-
-  // const keyUpEvent = (e) => {
-  //     if (e.code == "ArrowRight" && flg) {
-  //         flg = false;
-  //         content.focus();
-  //         content.setSelectionRange(
-  //             content.value.length,
-  //             content.value.length
-  //         );
-  //     }
-  // };
-
-  // const keydownEvent2 = (e) => {
-  //     if (
-  //         e.code == "ArrowRight" &&
-  //         content.selectionStart == content.value.length
-  //     ) {
-  //         flg = true;
-  //     }
-  //     if (e.code == "ArrowLeft" && content.selectionStart == 0) {
-  //         flg = true;
-  //     }
-  // };
-
-  // const keyUpEvent2 = (e) => {
-  //     if (e.code == "ArrowRight" && flg) {
-  //         button.focus();
-  //     }
-  //     if (e.code == "ArrowLeft" && flg) {
-  //         flg = false;
-  //         title.focus();
-  //         title.setSelectionRange(title.value.length, title.value.length);
-  //     }
-  // };
-
-  // const keydownEvent3 = (e) => {
-  //     if (e.code == "ArrowLeft") {
-  //         flg = true;
-  //     }
-  // };
-
-  // const keyUpEvent3 = (e) => {
-  //     if (e.code == "ArrowLeft" && flg) {
-  //         flg = false;
-  //         content.focus();
-  //         content.setSelectionRange(
-  //             content.value.length,
-  //             content.value.length
-  //         );
-  //     }
-  // };
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: "container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
-      children: "todoApp"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("h2", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "numberCompleted",
       children: ["number-completed:", count]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
       inputChange: function inputChange(e) {
@@ -19234,8 +19151,8 @@ function TopPage() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_TopPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/TopPage */ "./resources/js/components/TopPage.js");
 /* harmony import */ var _components_NotFound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/NotFound */ "./resources/js/components/NotFound.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -19248,19 +19165,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function App() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Switch, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    className: "container",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      to: "/",
+      className: "appTitle",
+      children: "todoApp"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Switch, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
         path: "/",
         exact: true,
         component: _components_TopPage__WEBPACK_IMPORTED_MODULE_2__["default"]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
         component: _components_NotFound__WEBPACK_IMPORTED_MODULE_3__.NotFound
       })]
-    })
+    })]
   });
 }
-react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.BrowserRouter, {
+react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.BrowserRouter, {
   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(App, {})
 }), document.getElementById("app"));
 
