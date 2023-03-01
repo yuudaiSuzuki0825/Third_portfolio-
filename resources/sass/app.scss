@@ -25,16 +25,23 @@ li {
         text-decoration: none;
         color: #333333;
         font-family: "Genos", sans-serif;
+        user-select: none;
+
+        &:hover {
+            color: #e74c3c;
+        }
     }
 
     .numberCompleted {
         font-size: 2rem;
         font-family: "Genos", sans-serif;
+        user-select: none;
     }
 
     .NotFound {
         font-size: 2rem;
         font-family: "Genos", sans-serif;
+        user-select: none;
     }
 }
 
@@ -48,13 +55,13 @@ li {
 
     li {
         word-break: break-all;
-        line-height: 1.8;
+        line-height: 1.5;
         font-size: 1.175rem;
 
         button {
             margin-top: 4px;
-            height: 30px;
-            width: 50px;
+            height: 24px;
+            width: 40px;
             background-color: #3cb371;
             color: #fff;
             border-radius: 4px;

@@ -22,6 +22,5 @@ Route::group(['middleware' => 'api'], function(){
     Route::get('tasks', 'App\Http\Controllers\Api\TaskController@index');
     Route::post('tasks/store', 'App\Http\Controllers\Api\TaskController@store'); //保存。
     Route::post('delete', 'App\Http\Controllers\Api\TaskController@delete'); // 削除。
-    // Route::post('edit', 'App\Http\Controllers\Api\TaskController@edit'); //編集画面。
     Route::get('count', 'App\Http\Controllers\Api\TaskController@count');
 });

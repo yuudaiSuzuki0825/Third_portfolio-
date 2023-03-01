@@ -17,14 +17,26 @@ li {
   text-decoration: none;
   color: #333333;
   font-family: "Genos", sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.container .appTitle:hover {
+  color: #e74c3c;
 }
 .container .numberCompleted {
   font-size: 2rem;
   font-family: "Genos", sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .container .NotFound {
   font-size: 2rem;
   font-family: "Genos", sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .parent {
@@ -37,13 +49,13 @@ li {
 }
 .parent li {
   word-break: break-all;
-  line-height: 1.8;
+  line-height: 1.5;
   font-size: 1.175rem;
 }
 .parent li button {
   margin-top: 4px;
-  height: 30px;
-  width: 50px;
+  height: 24px;
+  width: 40px;
   background-color: #3cb371;
   color: #fff;
   border-radius: 4px;
