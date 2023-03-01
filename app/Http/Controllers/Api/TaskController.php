@@ -11,7 +11,9 @@ class TaskController extends Controller
 {
     public function index()
     {
+        // Taskテーブルの全レコードを取得。
         $tasks = Task::all();
+        // json形式で$tasksを返している。
         return response()->json($tasks, 200);
     }
 

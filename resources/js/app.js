@@ -12,4 +12,5 @@ require("./bootstrap");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// route.jsで管理。
 require("./route");
