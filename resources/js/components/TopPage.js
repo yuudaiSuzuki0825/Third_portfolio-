@@ -9,7 +9,8 @@ import CreateForm from "./CreateForm";
 // uuidのインポート。
 import { v4 as uuidv4 } from "uuid";
 
-let datas = { name: "", content: "" };
+// inputChangeメソッドで使用。
+let datas = { title: "", content: "" };
 
 function TopPage() {
     // tasksとsetTasksの定義。タスク一覧を表示する際に使用。
@@ -44,10 +45,14 @@ function TopPage() {
     };
 
     // いずれ無くす予定。
+    // この関数では主にアクシオスを利用してサーバーサイドと通信して，Countテーブルの全レコード数を取得している。
+    // 「.get("/api/count")」はgetメソッドにて/api/countにリクエストを送信しているという意味。api.phpに記載されているcountアクションへと命令が渡される形になる。
     const getCountData = () => {
         axios
             .get("/api/count")
             .then((res) => {
+                // resにはcountアクション内で作成された$count（countsテーブルのレコード数）が格納されている。res.dataでアクセスできる。
+                // $countをcountにセットしている。これで表示が可能。
                 setCount(res.data);
             })
             .catch(() => {
@@ -56,11 +61,18 @@ function TopPage() {
             });
     };
 
+    // この関数では主にフォームに入力された値を一時的に保持する役割を果たす。CreateFormコンポーネントのonChangeを参照。
     const inputChange = (e) => {
+        // イベントオブジェクトからフォーム内の値やそのフォームのname属性にアクセスする。
+        // Changeイベントが発生したフォームのname属性の値（titleないしはcontent）を格納しておく。
         const key = e.target.name;
+        // Changeイベントが発生したフォームのvalue（titleないしはcontent）の値を格納しておく。
         const value = e.target.value;
+        // keyにはtitleかcontentのいずれかが格納されているはずである。すなわちここでは，上記で定義済みのdatasオブジェクト内のtitleあるいはcontentプロパティに対応するvalueの値を上書きしているということになる。
         datas[key] = value;
+        // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
         let data = Object.assign({}, datas);
+        // formDataにセットしている。datasからいきなりセットできないのは何故？
         setFormData(data);
     };
 
@@ -85,17 +97,27 @@ function TopPage() {
             });
     };
 
+    // この関数では主にタスクの削除を行う処理をサーバーサイド側に命令する役割を果たしている。
+    // エイシンクはアウェイトを使うために記述した。引数としてデータベースにおける主キーであるidを受け取っている。keyで指定したuuidではない。
     const deleteTask = async (id) => {
+        // axiosの処理が完了するまで次の処理に移行しないように命令している。
         await axios
+            // postメソッドにて/api/deleteにリクエストを送信している。api.phpにおけるdeleteアクションが実行される形になる。
+            // deleteメソッドに変えると挙動がおかしくなる…。何で？
             .post("/api/delete", {
+                // 引数としてidを渡している。
                 id: id,
             })
             .then((res) => {
+                // resではdeleteアクション内における$tasksが格納されている。res.dataでアクセスできる。
+                // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
                 setTasks(res.data);
             })
             .catch((error) => {
+                // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
                 console.log(error);
             });
+        // 完了数も変化するので以下の関数を再びここで呼び出す必要がある。
         getCountData();
     };
 
@@ -104,6 +126,9 @@ function TopPage() {
         <>
             <div className="numberCompleted">number-completed:{count}</div>
             <CreateForm
+                // {(e) => inputChange(e)}は{inputChange}に書き換え可能。
+                // このコンポーネントにはinputChangeとcreateTask，formDataをpropsとして渡している。
+                // setFormDataは本コンポーネント内で使用するのみなので送る必要はない（inputChangeで使用する）。
                 inputChange={(e) => inputChange(e)}
                 createTask={createTask}
                 formData={formData}
@@ -112,6 +137,7 @@ function TopPage() {
                 <li>
                     {tasks.map((task) => (
                         <Task
+                            // このコンポーネントにはtaskとdeleteTaskを渡している。mapメソッドを使用しているのでkeyの指定を忘れずに。
                             task={task}
                             key={uuidv4()}
                             deleteTask={deleteTask}

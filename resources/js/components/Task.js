@@ -2,6 +2,7 @@ import React from "react";
 
 const Task = ({ task, deleteTask }) => {
     const completed = () => {
+        // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
         deleteTask(task.id);
     };
     return (
