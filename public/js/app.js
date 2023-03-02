@@ -18947,6 +18947,7 @@ var Task = function Task(_ref) {
   var task = _ref.task,
     deleteTask = _ref.deleteTask;
   var completed = function completed() {
+    // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
     deleteTask(task.id);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -19006,24 +19007,31 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // Taskコンポーネントのインポート。
 
+// CreateFormコンポーネントのインポート。
+
+// uuidのインポート。
 
 
+// inputChangeメソッドで使用。
 
 
 
 var datas = {
-  name: "",
+  title: "",
   content: ""
 };
 function TopPage() {
+  // tasksとsetTasksの定義。タスク一覧を表示する際に使用。
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState2 = _slicedToArray(_useState, 2),
     tasks = _useState2[0],
     setTasks = _useState2[1];
+  // constとsetCountの定義。完了数を表示する際に使用。
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
     _useState4 = _slicedToArray(_useState3, 2),
     count = _useState4[0],
     setCount = _useState4[1];
+  // formDataとsetFormDataの定義。フォームに入力された値を一時的に保存する際に使用。
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       title: "",
       content: ""
@@ -19031,33 +19039,54 @@ function TopPage() {
     _useState6 = _slicedToArray(_useState5, 2),
     formData = _useState6[0],
     setFormData = _useState6[1];
+
+  // 第二引数に[]を指定した。これにより，マウント時に一回だけ下記の関数が呼び出される。
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // こちらの方が恐らく処理スピードが速いと思われる…。よって先に記述した。
     getCountData();
+    // タスクの一覧を全て取ってくるので時間がかかるものと思われる。
     getTasksData();
   }, []);
+
+  // この関数では主にアクシオスを利用してサーバーサイドと通信して，Tasksテーブルの全レコードを取得している。
+  // 「.get("/api/tasks")」はgetメソッドにて/api/tasksにリクエストを送信しているという意味。api.phpに記載されているindexアクションへと命令が渡される形になる。
   var getTasksData = function getTasksData() {
     axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/tasks").then(function (res) {
-      // console.log(res.data);
+      // resではindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
+      // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
       setTasks(res.data);
     })["catch"](function () {
       // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
       console.log("通信に失敗しました");
     });
   };
+
+  // いずれ無くす予定。
+  // この関数では主にアクシオスを利用してサーバーサイドと通信して，Countテーブルの全レコード数を取得している。
+  // 「.get("/api/count")」はgetメソッドにて/api/countにリクエストを送信しているという意味。api.phpに記載されているcountアクションへと命令が渡される形になる。
   var getCountData = function getCountData() {
     axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/count").then(function (res) {
-      // console.log(res.data);
+      // resにはcountアクション内で作成された$count（countsテーブルのレコード数）が格納されている。res.dataでアクセスできる。
+      // $countをcountにセットしている。これで表示が可能。
       setCount(res.data);
     })["catch"](function () {
       // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
       console.log("通信に失敗しました");
     });
   };
+
+  // この関数では主にフォームに入力された値を一時的に保持する役割を果たす。CreateFormコンポーネントのonChangeを参照。
   var _inputChange = function inputChange(e) {
+    // イベントオブジェクトからフォーム内の値やそのフォームのname属性にアクセスする。
+    // Changeイベントが発生したフォームのname属性の値（titleないしはcontent）を格納しておく。
     var key = e.target.name;
+    // Changeイベントが発生したフォームのvalue（titleないしはcontent）の値を格納しておく。
     var value = e.target.value;
+    // keyにはtitleかcontentのいずれかが格納されているはずである。すなわちここでは，上記で定義済みのdatasオブジェクト内のtitleあるいはcontentプロパティに対応するvalueの値を上書きしているということになる。
     datas[key] = value;
+    // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
     var data = Object.assign({}, datas);
+    // formDataにセットしている。datasからいきなりセットできないのは何故？
     setFormData(data);
   };
   var createTask = /*#__PURE__*/function () {
@@ -19094,6 +19123,9 @@ function TopPage() {
       return _ref.apply(this, arguments);
     };
   }();
+
+  // この関数では主にタスクの削除を行う処理をサーバーサイド側に命令する役割を果たしている。
+  // エイシンクはアウェイトを使うために記述した。引数としてデータベースにおける主キーであるidを受け取っている。keyで指定したuuidではない。
   var deleteTask = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id) {
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -19101,6 +19133,7 @@ function TopPage() {
           case 0:
             _context2.next = 2;
             return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/delete", {
+              // 引数としてidを渡している。
               id: id
             }).then(function (res) {
               setTasks(res.data);
@@ -19119,27 +19152,37 @@ function TopPage() {
       return _ref2.apply(this, arguments);
     };
   }();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "numberCompleted",
-      children: ["number-completed:", count]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      inputChange: function inputChange(e) {
-        return _inputChange(e);
-      },
-      createTask: createTask,
-      formData: formData
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
-        children: tasks.map(function (task) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Task__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            task: task,
-            deleteTask: deleteTask
-          }, (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])());
+  return (
+    /*#__PURE__*/
+    // 別にdivタグではなくてもOK（<></>でOK）。フラグメントと呼ばれる。
+    (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "numberCompleted",
+        children: ["number-completed:", count]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_3__["default"]
+      // {(e) => inputChange(e)}は{inputChange}に書き換え可能。
+      // このコンポーネントにはinputChangeとcreateTask，formDataをpropsとして渡している。
+      // setFormDataは本コンポーネント内で使用するのみなので送る必要はない（inputChangeで使用する）。
+      , {
+        inputChange: function inputChange(e) {
+          return _inputChange(e);
+        },
+        createTask: createTask,
+        formData: formData
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+          children: tasks.map(function (task) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Task__WEBPACK_IMPORTED_MODULE_2__["default"]
+            // このコンポーネントにはtaskとdeleteTaskを渡している。mapメソッドを使用しているのでkeyの指定を忘れずに。
+            , {
+              task: task,
+              deleteTask: deleteTask
+            }, (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])());
+          })
         })
-      })
-    })]
-  });
+      })]
+    })
+  );
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TopPage);
 

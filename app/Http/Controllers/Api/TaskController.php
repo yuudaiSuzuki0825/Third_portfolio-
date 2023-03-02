@@ -23,18 +23,24 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->content = $request->content;
         $task->save();
+        $tasks = Task::all();
         return response()->json($tasks, 200);
     }
 
     public function delete(Request $request)
     {
+        // 削除するレコードをid（主キー）を使って特定している。
         $task = Task::find($request->id);
+        // tasksテーブルで削除する代わりにcountテーブルにそのレコードデータを移している。
         $count = new Count;
         $count->title = $task->title;
         $count->content = $task->content;
         $count->save();
+        // countテーブルへのレコード移行が完了したら速やかにtasksテーブルから削除。
         $task->delete();
+        // Taskテーブルの全レコードを取得。
         $tasks = Task::all();
+        // json形式で$tasksを返している。
         return response()->json($tasks, 200);
     }
 
