@@ -36,6 +36,7 @@ function TopPage() {
             .then((res) => {
                 // resではindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
                 // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
+                console.log(res.data);
                 setTasks(res.data);
             })
             .catch(() => {
@@ -76,29 +77,37 @@ function TopPage() {
         setFormData(data);
     };
 
+    // この関数では主にタスクを新規作成するための命令をサーバーサイドにリクエストする役割を果たしている。
+    // エイシンクはアウェイトを使うために記述した。
     const createTask = async () => {
+        // 早期リターン。フォームのvalueが空の時（もし仮にここをコメントアウトしてもデータベース側でnullを許容していないので何も起こらない）。
         if (formData == "") {
+            // titleとcontentのどちらか一方でも空だとアウト。
             return;
         }
+        // axiosの処理が完了するまで次の処理に移行しないように命令している。
         await axios
+            // postメソッドにてapi/tasks/storeにリクエストを送信しているという意味。api.phpによりstoreアクションが実行される形となる。
             .post("/api/tasks/store", {
+                // $requestとして渡す引数は以下の通り。詳しくはstoreアクションを参照。
+                // formData（オブジェクト）の各プロパティ（title,content）の値を渡している。
                 title: formData.title,
                 content: formData.content,
             })
             .then((res) => {
-                const tempTasks = tasks;
-                tempTasks.push(res.data);
-                console.log(res.data);
-                setTasks(tempTasks);
+                // res.dataにはTasksテーブルの全レコード情報（$tasks）が格納されている。それを新しいTasksとして差し替えている。
+                setTasks(res.data);
+                // フォームの中身を空にしている。
                 setFormData("");
             })
             .catch((error) => {
+                // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
                 console.log(error);
             });
     };
 
     // この関数では主にタスクの削除を行う処理をサーバーサイド側に命令する役割を果たしている。
-    // エイシンクはアウェイトを使うために記述した。引数としてデータベースにおける主キーであるidを受け取っている。keyで指定したuuidではない。
+    // エイシンクはアウェイトを使うために記述した。本関数は，引数としてデータベースにおける主キーであるidを受け取っている。keyで指定したuuidではない。
     const deleteTask = async (id) => {
         // axiosの処理が完了するまで次の処理に移行しないように命令している。
         await axios

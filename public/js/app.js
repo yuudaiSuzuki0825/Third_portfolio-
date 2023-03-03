@@ -18940,6 +18940,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+// Reactライブラリをインポート。
 
 
 
@@ -18948,6 +18949,8 @@ var Task = function Task(_ref) {
     deleteTask = _ref.deleteTask;
   var completed = function completed() {
     // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
+    // 一度コンソールログにてres.dataによってgetTasksData()が何を行っているのか確認すると良い。各要素がオブジェクトの配列をres.dataとして渡していて，
+    // そのオブジェクトのプロパティの中にid（主キー）も含まれている。そのidを用いている。
     deleteTask(task.id);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -19054,6 +19057,7 @@ function TopPage() {
     axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/tasks").then(function (res) {
       // resではindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
       // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
+      console.log(res.data);
       setTasks(res.data);
     })["catch"](function () {
       // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
@@ -19089,6 +19093,9 @@ function TopPage() {
     // formDataにセットしている。datasからいきなりセットできないのは何故？
     setFormData(data);
   };
+
+  // この関数では主にタスクを新規作成するための命令をサーバーサイドにリクエストする役割を果たしている。
+  // エイシンクはアウェイトを使うために記述した。
   var createTask = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
       return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -19102,15 +19109,17 @@ function TopPage() {
           case 2:
             _context.next = 4;
             return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/tasks/store", {
+              // $requestとして渡す引数は以下の通り。詳しくはstoreアクションを参照。
+              // formData（オブジェクト）の各プロパティ（title,content）の値を渡している。
               title: formData.title,
               content: formData.content
             }).then(function (res) {
-              var tempTasks = tasks;
-              tempTasks.push(res.data);
-              console.log(res.data);
-              setTasks(tempTasks);
+              // res.dataにはTasksテーブルの全レコード情報（$tasks）が格納されている。それを新しいTasksとして差し替えている。
+              setTasks(res.data);
+              // フォームの中身を空にしている。
               setFormData("");
             })["catch"](function (error) {
+              // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
               console.log(error);
             });
           case 4:
@@ -19125,7 +19134,7 @@ function TopPage() {
   }();
 
   // この関数では主にタスクの削除を行う処理をサーバーサイド側に命令する役割を果たしている。
-  // エイシンクはアウェイトを使うために記述した。引数としてデータベースにおける主キーであるidを受け取っている。keyで指定したuuidではない。
+  // エイシンクはアウェイトを使うために記述した。本関数は，引数としてデータベースにおける主キーであるidを受け取っている。keyで指定したuuidではない。
   var deleteTask = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id) {
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -19136,11 +19145,15 @@ function TopPage() {
               // 引数としてidを渡している。
               id: id
             }).then(function (res) {
+              // resではdeleteアクション内における$tasksが格納されている。res.dataでアクセスできる。
+              // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
               setTasks(res.data);
             })["catch"](function (error) {
+              // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
               console.log(error);
             });
           case 2:
+            // 完了数も変化するので以下の関数を再びここで呼び出す必要がある。
             getCountData();
           case 3:
           case "end":

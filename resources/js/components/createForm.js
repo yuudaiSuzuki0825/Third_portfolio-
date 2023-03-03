@@ -1,4 +1,6 @@
+// Reactライブラリをインポート。
 import React from "react";
+// マテリアルUIをインポート。
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 
