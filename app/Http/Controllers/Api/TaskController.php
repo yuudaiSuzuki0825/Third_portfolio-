@@ -19,11 +19,15 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
+        // Tasksテーブルの新しいレコードをユーザーの入力値から作成している。
+        // $requestにTopPage.jsにおけるformDataの各プロパティの値が格納されている。それを取り出して保存している。
         $task = new Task;
         $task->title = $request->title;
         $task->content = $request->content;
         $task->save();
+        // 先程作成したレコードを新たに加えて全レコードを取得。
         $tasks = Task::all();
+        // json形式で$tasksを返している。
         return response()->json($tasks, 200);
     }
 
