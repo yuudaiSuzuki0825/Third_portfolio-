@@ -137,7 +137,7 @@ function TopPage() {
             <CreateForm
                 // {(e) => inputChange(e)}は{inputChange}に書き換え可能。
                 // このコンポーネントにはinputChangeとcreateTask，formDataをpropsとして渡している。
-                // setFormDataは本コンポーネント内で使用するのみなので送る必要はない（inputChangeで使用する）。
+                // setFormDataは本コンポーネント内で使用するのみなので渡す必要はない（inputChangeで使用する）。
                 inputChange={(e) => inputChange(e)}
                 createTask={createTask}
                 formData={formData}
