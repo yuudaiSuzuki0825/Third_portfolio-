@@ -18794,9 +18794,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
 /* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/createStyles.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+// Reactライブラリをインポート。
+
+// マテリアルUIをインポート。
 
 
 
+// マテリアルUI。
 
 
 var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(function (theme) {
@@ -18806,7 +18810,11 @@ var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["defaul
     }
   });
 });
+
+// フラグを初期化している。カーソルキー移動のメソッドで使用。
 var flg = false;
+
+// inputChange, createTask, formDataをpropsとして受け取っている。
 var CreateForm = function CreateForm(_ref) {
   var inputChange = _ref.inputChange,
     createTask = _ref.createTask,
@@ -18815,26 +18823,53 @@ var CreateForm = function CreateForm(_ref) {
   var title = document.getElementById("title");
   var content = document.getElementById("content");
   var button = document.getElementById("button");
+
+  // マテリアルUI。
   var classes = useStyles();
+
+  // この関数ではTopPageコンポーネントのinputChange()を実行している。その際，イベントオブジェクトを引数として渡している。
+  // titleあるいはcontentフォームのvalueが書き換わるたびに実行される。
   var Change = function Change(e) {
     inputChange(e);
   };
+
+  // この関数ではTopPageコンポーネントのcreateTask()を実行している。「作成する」ボタンがクリックされた時。
   var create = function create() {
     createTask();
   };
+
+  // -----------------------------------
+  // カーソルキー移動のメソッドここから。
+  // -----------------------------------
+
+  // keydownEvent及びkeyUpEventはtitleからcontentに移動する際に使用。
+  // keydownEvent2及びkeyUpEvent2はcontentからbuttonに，contentからtitleに移動する際に使用。
+  // keydownEvent3及びkeyUpEvent3はbuttonからcontentに移動する際に使用。
+  // ArrowRightは右矢印ボタンを，ArrowLeftは左矢印ボタンを意味している。
+
   var keydownEvent = function keydownEvent(e) {
+    // 右矢印ボタンがクリックされ，かつtitleフォームの値の最後の地点に位置していた時。
     if (e.code == "ArrowRight" && title.selectionStart == title.value.length) {
+      // フラグを反転させている。
       flg = true;
-      console.log("hoge");
+      // console.log("hoge");
     }
   };
+
   var keyUpEvent = function keyUpEvent(e) {
+    // 右矢印ボタンがクリックされ，かつflgがtrueの時。
     if (e.code == "ArrowRight" && flg) {
+      // フラグを元に戻している。
       flg = false;
+      // contentフォームにフォーカスしている。
       content.focus();
+      // さらに，フォーカス地点を最後の文字にしている。
+      // フォーカスとその地点の指定の両方を達成するためにはkeydownとkeyupの両イベントでメソッドを作る必要があった。
       content.setSelectionRange(content.value.length, content.value.length);
     }
   };
+
+  // 以降は上記処理と大まかな流れは同じ。
   var keydownEvent2 = function keydownEvent2(e) {
     if (e.code == "ArrowRight" && content.selectionStart == content.value.length) {
       flg = true;
@@ -18865,6 +18900,11 @@ var CreateForm = function CreateForm(_ref) {
       content.setSelectionRange(content.value.length, content.value.length);
     }
   };
+
+  // -----------------------------------
+  // カーソルキー移動のメソッドここまで。
+  // -----------------------------------
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
       id: "title",
@@ -19175,7 +19215,7 @@ function TopPage() {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CreateForm__WEBPACK_IMPORTED_MODULE_3__["default"]
       // {(e) => inputChange(e)}は{inputChange}に書き換え可能。
       // このコンポーネントにはinputChangeとcreateTask，formDataをpropsとして渡している。
-      // setFormDataは本コンポーネント内で使用するのみなので送る必要はない（inputChangeで使用する）。
+      // setFormDataは本コンポーネント内で使用するのみなので渡す必要はない（inputChangeで使用する）。
       , {
         inputChange: function inputChange(e) {
           return _inputChange(e);
