@@ -17,6 +17,7 @@ function TopPage() {
     const [tasks, setTasks] = useState([]);
     // constとsetCountの定義。完了数を表示する際に使用。
     const [count, setCount] = useState(0);
+    const [Suspensions, setSuspensions] = useState([]);
     // formDataとsetFormDataの定義。フォームに入力された値を一時的に保存する際に使用。
     const [formData, setFormData] = useState({ title: "", content: "" });
 
@@ -130,6 +131,20 @@ function TopPage() {
         getCountData();
     };
 
+    const suspendTask = async (id) => {
+        await axios
+            .post("/api/suspend", {
+                id: id,
+            })
+            .then((res) => {
+                setTasks(res.data);
+            })
+            .catch((error) => {
+                // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
+                console.log(error);
+            });
+    };
+
     return (
         // 別にdivタグではなくてもOK（<></>でOK）。フラグメントと呼ばれる。
         <>
@@ -150,6 +165,7 @@ function TopPage() {
                             task={task}
                             key={uuidv4()}
                             deleteTask={deleteTask}
+                            suspendTask={suspendTask}
                         />
                     ))}
                 </li>

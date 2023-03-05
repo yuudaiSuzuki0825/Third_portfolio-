@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Count;
+use App\Models\Suspension;
 
 class TaskController extends Controller
 {
@@ -51,5 +52,21 @@ class TaskController extends Controller
     public function count() {
         $count = Count::count();
         return response()->json($count, 200);
+    }
+
+    public function suspend(Request $request) {
+        // 中断するレコードをid（主キー）を使って特定している。
+        $task = Task::find($request->id);
+        // tasksテーブルで削除する代わりにsuspensionsテーブルにそのレコードデータを移している。
+        $suspension = new Suspension;
+        $suspension->title = $task->title;
+        $suspension->content = $task->content;
+        $suspension->save();
+        // suspensionsテーブルへのレコード移行が完了したら速やかにtasksテーブルから削除。
+        $task->delete();
+        // Taskテーブルの全レコードを取得。
+        $tasks = Task::all();
+        // json形式で$tasksを返している。
+        return response()->json($tasks, 200);
     }
 }

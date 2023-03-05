@@ -64,13 +64,23 @@ li {
 .parent li button:hover {
   background-color: #50eb95;
 }
+.parent li .xmark {
+  background-color: #f07264;
+  box-shadow: 0px 0px 15px -5px #db6f63;
+}
+.parent li .xmark:hover {
+  background-color: #ff1900;
+}
 .parent li:first-child {
   margin-left: 5px;
   margin-right: 30px;
 }
-.parent li:last-child {
+.parent li:nth-child(3) {
   margin-left: auto;
   margin-right: 10px;
+}
+.parent li:last-child {
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 850px) {
