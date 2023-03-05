@@ -19,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['middleware' => 'api'], function(){
-    Route::get('tasks', 'App\Http\Controllers\Api\TaskController@index');
+    Route::get('tasks', 'App\Http\Controllers\Api\TaskController@index'); // タスク一覧。
     Route::post('tasks/store', 'App\Http\Controllers\Api\TaskController@store'); //保存。
     Route::post('delete', 'App\Http\Controllers\Api\TaskController@delete'); // 削除。
-    Route::get('count', 'App\Http\Controllers\Api\TaskController@count');
+    Route::get('count', 'App\Http\Controllers\Api\TaskController@count'); // 完了数
+    Route::post('suspend', 'App\Http\Controllers\Api\TaskController@suspend'); // 中断。
 });

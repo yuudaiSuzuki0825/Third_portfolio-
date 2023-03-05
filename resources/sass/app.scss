@@ -71,6 +71,15 @@ li {
                 background-color: #50eb95;
             }
         }
+
+        .xmark {
+            background-color: #f07264;
+            box-shadow: 0px 0px 15px -5px #db6f63;
+
+            &:hover {
+                background-color: #ff1900;
+            }
+        }
     }
 
     li:first-child {
@@ -78,9 +87,13 @@ li {
         margin-right: 30px;
     }
 
-    li:last-child {
+    li:nth-child(3) {
         margin-left: auto;
         margin-right: 10px;
+    }
+
+    li:last-child {
+        margin-right: 5px;
     }
 }
 

@@ -127,6 +127,7 @@ const CreateForm = ({ inputChange, createTask, formData }) => {
                 variant="outlined"
                 name="title"
                 className={classes.textArea}
+                // formDataのtitleプロパティの値をvalueにセットする必要がある。
                 value={formData.title}
                 onChange={Change}
                 onKeyDown={keydownEvent}
@@ -138,6 +139,7 @@ const CreateForm = ({ inputChange, createTask, formData }) => {
                 variant="outlined"
                 name="content"
                 className={classes.textArea}
+                // formDataのcontentプロパティの値をvalueにセットする必要がある。
                 value={formData.content}
                 onChange={Change}
                 onKeyDown={keydownEvent2}

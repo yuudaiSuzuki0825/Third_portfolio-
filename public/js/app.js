@@ -18911,7 +18911,9 @@ var CreateForm = function CreateForm(_ref) {
       label: "title",
       variant: "outlined",
       name: "title",
-      className: classes.textArea,
+      className: classes.textArea
+      // formDataのtitleプロパティの値をvalueにセットする必要がある。
+      ,
       value: formData.title,
       onChange: Change,
       onKeyDown: keydownEvent,
@@ -18921,7 +18923,9 @@ var CreateForm = function CreateForm(_ref) {
       label: "content",
       variant: "outlined",
       name: "content",
-      className: classes.textArea,
+      className: classes.textArea
+      // formDataのcontentプロパティの値をvalueにセットする必要がある。
+      ,
       value: formData.content,
       onChange: Change,
       onKeyDown: keydownEvent2,
@@ -18986,12 +18990,16 @@ __webpack_require__.r(__webpack_exports__);
 
 var Task = function Task(_ref) {
   var task = _ref.task,
-    deleteTask = _ref.deleteTask;
+    deleteTask = _ref.deleteTask,
+    suspendTask = _ref.suspendTask;
   var completed = function completed() {
     // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
     // 一度コンソールログにてres.dataによってgetTasksData()が何を行っているのか確認すると良い。各要素がオブジェクトの配列をres.dataとして渡していて，
     // そのオブジェクトのプロパティの中にid（主キー）も含まれている。そのidを用いている。
     deleteTask(task.id);
+  };
+  var suspend = function suspend() {
+    suspendTask(task.id);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     className: "container",
@@ -19006,6 +19014,14 @@ var Task = function Task(_ref) {
           onClick: completed,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
             className: "fa-solid fa-check"
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          onClick: suspend,
+          className: "xmark",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+            className: "fa-solid fa-xmark"
           })
         })
       })]
@@ -19074,14 +19090,18 @@ function TopPage() {
     _useState4 = _slicedToArray(_useState3, 2),
     count = _useState4[0],
     setCount = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+    _useState6 = _slicedToArray(_useState5, 2),
+    Suspensions = _useState6[0],
+    setSuspensions = _useState6[1];
   // formDataとsetFormDataの定義。フォームに入力された値を一時的に保存する際に使用。
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       title: "",
       content: ""
     }),
-    _useState6 = _slicedToArray(_useState5, 2),
-    formData = _useState6[0],
-    setFormData = _useState6[1];
+    _useState8 = _slicedToArray(_useState7, 2),
+    formData = _useState8[0],
+    setFormData = _useState8[1];
 
   // 第二引数に[]を指定した。これにより，マウント時に一回だけ下記の関数が呼び出される。
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -19205,6 +19225,30 @@ function TopPage() {
       return _ref2.apply(this, arguments);
     };
   }();
+  var suspendTask = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(id) {
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/suspend", {
+              id: id
+            }).then(function (res) {
+              setTasks(res.data);
+            })["catch"](function (error) {
+              // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
+              console.log(error);
+            });
+          case 2:
+          case "end":
+            return _context3.stop();
+        }
+      }, _callee3);
+    }));
+    return function suspendTask(_x3) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
   return (
     /*#__PURE__*/
     // 別にdivタグではなくてもOK（<></>でOK）。フラグメントと呼ばれる。
@@ -19229,7 +19273,8 @@ function TopPage() {
             // このコンポーネントにはtaskとdeleteTaskを渡している。mapメソッドを使用しているのでkeyの指定を忘れずに。
             , {
               task: task,
-              deleteTask: deleteTask
+              deleteTask: deleteTask,
+              suspendTask: suspendTask
             }, (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])());
           })
         })
