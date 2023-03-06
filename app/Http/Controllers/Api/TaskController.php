@@ -69,4 +69,21 @@ class TaskController extends Controller
         // json形式で$tasksを返している。
         return response()->json($tasks, 200);
     }
+
+    public function suspension() {
+        $suspensions = Suspension::all();
+        // json形式で$tasksを返している。
+        return response()->json($suspensions, 200);
+    }
+
+    public function restore(Request $request) {
+        $suspension = Suspension::find($request->id);
+        $task = new Task;
+        $task->title = $suspension->title;
+        $task->content = $suspension->content;
+        $task->save();
+        $suspension->delete();
+        $suspensions = Suspension::all();
+        return response()->json($suspensions, 200);
+    }
 }

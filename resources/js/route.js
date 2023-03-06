@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 // TopPageをインポート。
 import TopPage from "./components/TopPage";
+import SuspendPage from "./components/SuspendPage";
 // NotFoundをインポート。
 import NotFound from "./components/NotFound";
 
@@ -15,15 +16,25 @@ function App() {
         <div className="container">
             {/* ページタイトルをトップページへ移動するリンクにしている。これは誤ってNotFoundページに飛んでしまったときに前ページへ戻る際，使用してもらうため。 */}
             <header>
-                <Link to="/" className="appTitle">
-                    todoApp
-                </Link>
+                <ul>
+                    <li>
+                        <Link to="/" className="appTitle">
+                            todoApp
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/suspend" className="appTitle">
+                            suspensionList
+                        </Link>
+                    </li>
+                </ul>
             </header>
             <main>
                 <Switch>
                     {/* トップページにアクセスするとTopPageコンポーネントが表示される。 */}
                     <Route path="/" exact component={TopPage} />
                     {/* urlが「/」以外のものを入力した際には以下のコンポーネントが表示される。 */}
+                    <Route path="/suspend" exact component={SuspendPage} />
                     <Route component={NotFound} />
                 </Switch>
             </main>
