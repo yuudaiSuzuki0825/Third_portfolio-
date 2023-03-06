@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from "react";
 // axios（アクシオス）のインポート。サーバーサイドとの通信に利用するため。
 import axios from "axios";
-// Taskコンポーネントのインポート。
-import Task from "./Task";
+import Suspension from "./Suspension";
 // CreateFormコンポーネントのインポート。
 import CreateForm from "./CreateForm";
 // uuidのインポート。
@@ -12,9 +11,9 @@ import { v4 as uuidv4 } from "uuid";
 // inputChangeメソッドで使用。
 let datas = { title: "", content: "" };
 
-function TopPage() {
-    // tasksとsetTasksの定義。タスク一覧を表示する際に使用。
-    const [tasks, setTasks] = useState([]);
+const SuspendPage = () => {
+    // SuspensionsとsetSuspensionsの定義。中断されたタスクの一覧を表示する際に使用。
+    const [suspensions, setSuspensions] = useState([]);
     // constとsetCountの定義。完了数を表示する際に使用。
     const [count, setCount] = useState(0);
     // formDataとsetFormDataの定義。フォームに入力された値を一時的に保存する際に使用。
@@ -25,19 +24,15 @@ function TopPage() {
         // こちらの方が恐らく処理スピードが速いと思われる…。よって先に記述した。
         getCountData();
         // タスクの一覧を全て取ってくるので時間がかかるものと思われる。
-        getTasksData();
+        getSuspensionsData();
     }, []);
 
-    // この関数では主にアクシオスを利用してサーバーサイドと通信して，Tasksテーブルの全レコードを取得している。
-    // 「.get("/api/tasks")」はgetメソッドにて/api/tasksにリクエストを送信しているという意味。api.phpに記載されているindexアクションへと命令が渡される形になる。
-    const getTasksData = () => {
+    const getSuspensionsData = () => {
         axios
-            .get("/api/tasks")
+            .get("/api/suspensions")
             .then((res) => {
-                // resではindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
-                // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
-                // console.log(res.data);
-                setTasks(res.data);
+                console.log(res.data);
+                setSuspensions(res.data);
             })
             .catch(() => {
                 // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
@@ -45,8 +40,6 @@ function TopPage() {
             });
     };
 
-    // この関数では主にアクシオスを利用してサーバーサイドと通信して，Countテーブルの全レコード数を取得している。
-    // 「.get("/api/count")」はgetメソッドにて/api/countにリクエストを送信しているという意味。api.phpに記載されているcountアクションへと命令が渡される形になる。
     const getCountData = () => {
         axios
             .get("/api/count")
@@ -105,37 +98,14 @@ function TopPage() {
             });
     };
 
-    // この関数では主にタスクの削除を行う処理をサーバーサイド側に命令する役割を果たしている。
-    // エイシンクはアウェイトを使うために記述した。本関数は，引数としてデータベースにおける主キーであるidを受け取っている。keyで指定したuuidではない。
-    const deleteTask = async (id) => {
-        // axiosの処理が完了するまで次の処理に移行しないように命令している。
+    const restoreTask = async (id) => {
         await axios
-            // postメソッドにて/api/deleteにリクエストを送信している。api.phpにおけるdeleteアクションが実行される形になる。
-            // deleteメソッドに変えると挙動がおかしくなる…。何で？
-            .post("/api/delete", {
-                // 引数としてidを渡している。
+            .post("/api/suspensions/restore", {
                 id: id,
             })
             .then((res) => {
-                // resではdeleteアクション内における$tasksが格納されている。res.dataでアクセスできる。
-                // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
-                setTasks(res.data);
-            })
-            .catch((error) => {
-                // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
-                console.log(error);
-            });
-        // 完了数も変化するので以下の関数を再びここで呼び出す必要がある。
-        getCountData();
-    };
-
-    const suspendTask = async (id) => {
-        await axios
-            .post("/api/suspend", {
-                id: id,
-            })
-            .then((res) => {
-                setTasks(res.data);
+                setSuspensions(res.data);
+                console.log("hoge!");
             })
             .catch((error) => {
                 // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
@@ -157,19 +127,17 @@ function TopPage() {
             />
             <ul>
                 <li>
-                    {tasks.map((task) => (
-                        <Task
-                            // このコンポーネントにはtaskとdeleteTaskを渡している。mapメソッドを使用しているのでkeyの指定を忘れずに。
-                            task={task}
+                    {suspensions.map((suspension) => (
+                        <Suspension
+                            suspension={suspension}
                             key={uuidv4()}
-                            deleteTask={deleteTask}
-                            suspendTask={suspendTask}
+                            restoreTask={restoreTask}
                         />
                     ))}
                 </li>
             </ul>
         </>
     );
-}
+};
 
-export default TopPage;
+export default SuspendPage;

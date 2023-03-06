@@ -24,4 +24,6 @@ Route::group(['middleware' => 'api'], function(){
     Route::post('delete', 'App\Http\Controllers\Api\TaskController@delete'); // 削除。
     Route::get('count', 'App\Http\Controllers\Api\TaskController@count'); // 完了数
     Route::post('suspend', 'App\Http\Controllers\Api\TaskController@suspend'); // 中断。
+    Route::get('suspensions', 'App\Http\Controllers\Api\TaskController@suspension');
+    Route::post('suspensions/restore', 'App\Http\Controllers\Api\TaskController@restore');
 });
