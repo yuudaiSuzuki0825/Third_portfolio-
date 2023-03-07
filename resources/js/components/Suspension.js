@@ -1,8 +1,12 @@
 import React from "react";
 
-const Suspension = ({ suspension, restoreTask }) => {
+const Suspension = ({ suspension, restoreTask, destoryTask }) => {
     const restore = () => {
         restoreTask(suspension.id);
+    };
+
+    const destory = () => {
+        destoryTask(suspension.id);
     };
 
     return (
@@ -12,7 +16,12 @@ const Suspension = ({ suspension, restoreTask }) => {
                 <li>{suspension.content}</li>
                 <li>
                     <button onClick={restore}>
-                        <i class="fa-regular fa-circle-up"></i>
+                        <i className="fa-regular fa-circle-up"></i>
+                    </button>
+                </li>
+                <li>
+                    <button onClick={destory} className="xmark">
+                        <i className="fa-regular fa-circle-xmark"></i>
                     </button>
                 </li>
             </ul>

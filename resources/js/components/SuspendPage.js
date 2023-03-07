@@ -105,7 +105,20 @@ const SuspendPage = () => {
             })
             .then((res) => {
                 setSuspensions(res.data);
-                console.log("hoge!");
+            })
+            .catch((error) => {
+                // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
+                console.log(error);
+            });
+    };
+
+    const destoryTask = async (id) => {
+        await axios
+            .post("api/suspensions/destory", {
+                id: id,
+            })
+            .then((res) => {
+                setSuspensions(res.data);
             })
             .catch((error) => {
                 // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
@@ -132,6 +145,7 @@ const SuspendPage = () => {
                             suspension={suspension}
                             key={uuidv4()}
                             restoreTask={restoreTask}
+                            destoryTask={destoryTask}
                         />
                     ))}
                 </li>

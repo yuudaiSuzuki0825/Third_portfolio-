@@ -86,4 +86,11 @@ class TaskController extends Controller
         $suspensions = Suspension::all();
         return response()->json($suspensions, 200);
     }
+
+    public function destory(Request $request) {
+        $suspension = Suspension::find($request->id);
+        $suspension->delete();
+        $suspensions = Suspension::all();
+        return response()->json($suspensions, 200);
+    }
 }
