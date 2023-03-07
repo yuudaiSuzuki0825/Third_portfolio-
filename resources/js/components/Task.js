@@ -19,12 +19,12 @@ const Task = ({ task, deleteTask, suspendTask }) => {
                 <li>{task.content}</li>
                 <li>
                     <button onClick={completed}>
-                        <i className="fa-solid fa-check"></i>
+                        <i className="fa-regular fa-circle-check"></i>
                     </button>
                 </li>
                 <li>
                     <button onClick={suspend} className="xmark">
-                        <i className="fa-solid fa-xmark"></i>
+                        <i className="fa-regular fa-circle-xmark"></i>
                     </button>
                 </li>
             </ul>

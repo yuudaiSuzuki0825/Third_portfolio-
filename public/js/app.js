@@ -19127,7 +19127,6 @@ var SuspendPage = function SuspendPage() {
               id: id
             }).then(function (res) {
               setSuspensions(res.data);
-              console.log("hoge!");
             })["catch"](function (error) {
               // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
               console.log(error);
@@ -19140,6 +19139,30 @@ var SuspendPage = function SuspendPage() {
     }));
     return function restoreTask(_x2) {
       return _ref2.apply(this, arguments);
+    };
+  }();
+  var destoryTask = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(id) {
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("api/suspensions/destory", {
+              id: id
+            }).then(function (res) {
+              setSuspensions(res.data);
+            })["catch"](function (error) {
+              // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
+              console.log(error);
+            });
+          case 2:
+          case "end":
+            return _context3.stop();
+        }
+      }, _callee3);
+    }));
+    return function destoryTask(_x3) {
+      return _ref3.apply(this, arguments);
     };
   }();
   return (
@@ -19164,7 +19187,8 @@ var SuspendPage = function SuspendPage() {
           children: suspensions.map(function (suspension) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Suspension__WEBPACK_IMPORTED_MODULE_2__["default"], {
               suspension: suspension,
-              restoreTask: restoreTask
+              restoreTask: restoreTask,
+              destoryTask: destoryTask
             }, (0,uuid__WEBPACK_IMPORTED_MODULE_5__["default"])());
           })
         })
@@ -19194,9 +19218,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var Suspension = function Suspension(_ref) {
   var suspension = _ref.suspension,
-    restoreTask = _ref.restoreTask;
+    restoreTask = _ref.restoreTask,
+    destoryTask = _ref.destoryTask;
   var restore = function restore() {
     restoreTask(suspension.id);
+  };
+  var destory = function destory() {
+    destoryTask(suspension.id);
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     className: "container",
@@ -19210,7 +19238,15 @@ var Suspension = function Suspension(_ref) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
           onClick: restore,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-            "class": "fa-regular fa-circle-up"
+            className: "fa-regular fa-circle-up"
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          onClick: destory,
+          className: "xmark",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+            className: "fa-regular fa-circle-xmark"
           })
         })
       })]
@@ -19263,7 +19299,7 @@ var Task = function Task(_ref) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
           onClick: completed,
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-            className: "fa-solid fa-check"
+            className: "fa-regular fa-circle-check"
           })
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
@@ -19271,7 +19307,7 @@ var Task = function Task(_ref) {
           onClick: suspend,
           className: "xmark",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-            className: "fa-solid fa-xmark"
+            className: "fa-regular fa-circle-xmark"
           })
         })
       })]
