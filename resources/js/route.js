@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 // TopPageをインポート。
 import TopPage from "./components/TopPage";
+import CompletePage from "./components/CompletePage";
 import SuspendPage from "./components/SuspendPage";
 // NotFoundをインポート。
 import NotFound from "./components/NotFound";
@@ -23,6 +24,11 @@ function App() {
                         </Link>
                     </li>
                     <li>
+                        <Link to="/complete" className="appTitle">
+                            completionList
+                        </Link>
+                    </li>
+                    <li>
                         <Link to="/suspend" className="appTitle">
                             suspensionList
                         </Link>
@@ -33,6 +39,7 @@ function App() {
                 <Switch>
                     {/* トップページにアクセスするとTopPageコンポーネントが表示される。 */}
                     <Route path="/" exact component={TopPage} />
+                    <Route path="/complete" exact component={CompletePage} />
                     {/* urlが「/」以外のものを入力した際には以下のコンポーネントが表示される。 */}
                     <Route path="/suspend" exact component={SuspendPage} />
                     <Route component={NotFound} />
