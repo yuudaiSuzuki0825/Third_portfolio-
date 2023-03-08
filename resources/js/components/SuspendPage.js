@@ -31,7 +31,7 @@ const SuspendPage = () => {
         axios
             .get("/api/suspensions")
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 setSuspensions(res.data);
             })
             .catch(() => {
