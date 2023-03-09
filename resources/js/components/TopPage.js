@@ -1,5 +1,7 @@
 // ReactとuseState, useEffectをインポート。
 import React, { useState, useEffect } from "react";
+// react-paginateライブラリをインポート。
+import ReactPaginate from "react-paginate";
 // axios（アクシオス）のインポート。サーバーサイドとの通信に利用するため。
 import axios from "axios";
 // Taskコンポーネントのインポート。
@@ -19,6 +21,20 @@ function TopPage() {
     const [count, setCount] = useState(0);
     // formDataとsetFormDataの定義。フォームに入力された値を一時的に保存する際に使用。
     const [formData, setFormData] = useState({ title: "", content: "" });
+
+    const [offset, setOffset] = useState(0); // 何番目のアイテムから表示するか
+    const perPage = 10; // 1ページあたりに表示したいアイテムの数
+    const handlePageChange = (data) => {
+        // デバック用。
+        // console.log(data["selected"]);
+        // console.log(tasks);
+
+        let page_number = data["selected"]; // クリックした部分のページ数が{selected: 2}のような形で返ってくる
+        setOffset(page_number * perPage); // offsetを変更し、表示開始するアイテムの番号を変更
+    };
+
+    // デバック用。
+    // console.log(offset);
 
     // 第二引数に[]を指定した。これにより，マウント時に一回だけ下記の関数が呼び出される。
     useEffect(() => {
@@ -157,7 +173,7 @@ function TopPage() {
             />
             <ul>
                 <li>
-                    {tasks.map((task) => (
+                    {tasks.slice(offset, offset + perPage).map((task) => (
                         <Task
                             // このコンポーネントにはtaskとdeleteTaskを渡している。mapメソッドを使用しているのでkeyの指定を忘れずに。
                             task={task}
@@ -168,6 +184,21 @@ function TopPage() {
                     ))}
                 </li>
             </ul>
+            <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={Math.ceil(tasks.length / perPage)} // 全部のページ数。端数の場合も考えて切り上げに。
+                marginPagesDisplayed={2} // 一番最初と最後を基準にして、そこからいくつページ数を表示するか
+                pageRangeDisplayed={5} // アクティブなページを基準にして、そこからいくつページ数を表示するか
+                onPageChange={handlePageChange} // クリック時のfunction
+                containerClassName={"pagination"} // ページネーションであるulに着くクラス名
+                subContainerClassName={"pages pagination"}
+                activeClassName={"active"} // アクティブなページのliに着くクラス名
+                previousClassName={"pagination__previous"} // 「<」のliに着けるクラス名
+                nextClassName={"pagination__next"} // 「>」のliに着けるクラス名
+                disabledClassName={"pagination__disabled"} // 使用不可の「<,>」に着くクラス名
+            />
         </>
     );
 }

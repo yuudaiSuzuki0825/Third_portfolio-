@@ -45,6 +45,11 @@ function App() {
                     <Route component={NotFound} />
                 </Switch>
             </main>
+            <footer>
+                <p>
+                    <small>© 2023 todoApp</small>
+                </p>
+            </footer>
         </div>
     );
 }
