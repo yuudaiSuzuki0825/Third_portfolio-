@@ -22,10 +22,11 @@ function TopPage() {
     // formDataとsetFormDataの定義。フォームに入力された値を一時的に保存する際に使用。
     const [formData, setFormData] = useState({ title: "", content: "" });
 
+    // ペジネーションの指定。
     const [offset, setOffset] = useState(0); // 何番目のアイテムから表示するか
-    const perPage = 10; // 1ページあたりに表示したいアイテムの数
+    const perPage = 3; // 1ページあたりに表示したいアイテムの数
     const handlePageChange = (data) => {
-        // デバック用。
+        // デバック用。消してOK。
         // console.log(data["selected"]);
         // console.log(tasks);
 
@@ -33,7 +34,7 @@ function TopPage() {
         setOffset(page_number * perPage); // offsetを変更し、表示開始するアイテムの番号を変更
     };
 
-    // デバック用。
+    // デバック用。消してOK。
     // console.log(offset);
 
     // 第二引数に[]を指定した。これにより，マウント時に一回だけ下記の関数が呼び出される。
@@ -185,19 +186,15 @@ function TopPage() {
                 </li>
             </ul>
             <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                breakLabel={"..."}
-                pageCount={Math.ceil(tasks.length / perPage)} // 全部のページ数。端数の場合も考えて切り上げに。
-                marginPagesDisplayed={2} // 一番最初と最後を基準にして、そこからいくつページ数を表示するか
-                pageRangeDisplayed={5} // アクティブなページを基準にして、そこからいくつページ数を表示するか
+                previousLabel={"<"} // オプション。無くてもOK。前ページに遷移するボタンを生成。
+                nextLabel={">"} // オプション。無くてもOK。次ページに遷移するボタンを生成。
+                breakLabel={"・・・"} // オプション。省略記号を指定できるが，記述しなかった場合はデフォルトの記号（...）が使用される。コメントアウトして確認を。
+                pageCount={Math.ceil(tasks.length / perPage)} // 全部のページ数を指定している。端数は切り上げている。必須。
+                marginPagesDisplayed={2} // オプション。無くてもOK。余白に表示するページ数？恐らく後ろ側のページの範囲を指定している。
+                pageRangeDisplayed={3} // オプション。無くてもOK。表示されるページの範囲を指定？
                 onPageChange={handlePageChange} // クリック時のfunction
-                containerClassName={"pagination"} // ページネーションであるulに着くクラス名
-                subContainerClassName={"pages pagination"}
-                activeClassName={"active"} // アクティブなページのliに着くクラス名
-                previousClassName={"pagination__previous"} // 「<」のliに着けるクラス名
-                nextClassName={"pagination__next"} // 「>」のliに着けるクラス名
-                disabledClassName={"pagination__disabled"} // 使用不可の「<,>」に着くクラス名
+                // 以下はクラス名をつけるために指定した。公式を参照。
+                containerClassName={"pagination"} // ページネーションであるulに着くクラス名を指定している。
             />
         </>
     );

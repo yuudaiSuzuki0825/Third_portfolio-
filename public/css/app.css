@@ -83,6 +83,21 @@ li {
   margin-right: 5px;
 }
 
+.pagination {
+  display: flex;
+  margin-top: 30px;
+}
+.pagination li + li {
+  margin-left: 10px;
+}
+.pagination .selected {
+  color: #e74c3c;
+}
+
+footer {
+  margin-top: 15px;
+}
+
 @media screen and (max-width: 850px) {
   .container {
     max-width: 95%;
