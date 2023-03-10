@@ -1,5 +1,7 @@
 // ReactとuseState, useEffectをインポート。
 import React, { useState, useEffect } from "react";
+// react-paginateライブラリをインポート。
+import ReactPaginate from "react-paginate";
 // axios（アクシオス）のインポート。サーバーサイドとの通信に利用するため。
 import axios from "axios";
 import Suspension from "./Suspension";
@@ -18,6 +20,18 @@ const SuspendPage = () => {
     const [count, setCount] = useState(0);
     // formDataとsetFormDataの定義。フォームに入力された値を一時的に保存する際に使用。
     const [formData, setFormData] = useState({ title: "", content: "" });
+
+    // ペジネーションの指定。
+    const [offset, setOffset] = useState(0); // 何番目のアイテムから表示するか
+    const perPage = 3; // 1ページあたりに表示したいアイテムの数
+    const handlePageChange = (data) => {
+        // デバック用。消してOK。
+        // console.log(data["selected"]);
+        // console.log(tasks);
+
+        let page_number = data["selected"]; // クリックした部分のページ数が{selected: 2}のような形で返ってくる
+        setOffset(page_number * perPage); // offsetを変更し、表示開始するアイテムの番号を変更
+    };
 
     // 第二引数に[]を指定した。これにより，マウント時に一回だけ下記の関数が呼び出される。
     useEffect(() => {
@@ -140,16 +154,29 @@ const SuspendPage = () => {
             />
             <ul>
                 <li>
-                    {suspensions.map((suspension) => (
-                        <Suspension
-                            suspension={suspension}
-                            key={uuidv4()}
-                            restoreTask={restoreTask}
-                            destoryTask={destoryTask}
-                        />
-                    ))}
+                    {suspensions
+                        .slice(offset, offset + perPage)
+                        .map((suspension) => (
+                            <Suspension
+                                suspension={suspension}
+                                key={uuidv4()}
+                                restoreTask={restoreTask}
+                                destoryTask={destoryTask}
+                            />
+                        ))}
                 </li>
             </ul>
+            <ReactPaginate
+                previousLabel={"<"} // オプション。無くてもOK。前ページに遷移するボタンを生成。
+                nextLabel={">"} // オプション。無くてもOK。次ページに遷移するボタンを生成。
+                breakLabel={"・・・"} // オプション。省略記号を指定できるが，記述しなかった場合はデフォルトの記号（...）が使用される。コメントアウトして確認を。
+                pageCount={Math.ceil(suspensions.length / perPage)} // 全部のページ数を指定している。端数は切り上げている。必須。
+                marginPagesDisplayed={2} // オプション。無くてもOK。余白に表示するページ数？恐らく後ろ側のページの範囲を指定している。
+                pageRangeDisplayed={3} // オプション。無くてもOK。表示されるページの範囲を指定？
+                onPageChange={handlePageChange} // クリック時のfunction
+                // 以下はクラス名をつけるために指定した。公式を参照。
+                containerClassName={"pagination"} // ページネーションであるulに着くクラス名を指定している。
+            />
         </>
     );
 };
