@@ -93,4 +93,16 @@ class TaskController extends Controller
         $suspensions = Suspension::all();
         return response()->json($suspensions, 200);
     }
+
+    public function completion() {
+        $completions = Count::all();
+        return response()->json($completions, 200);
+    }
+
+    public function destory2(Request $request) {
+        $completion = Count::find($request->id);
+        $completion->delete();
+        $completions = Count::all();
+        return response()->json($completions, 200);
+    }
 }

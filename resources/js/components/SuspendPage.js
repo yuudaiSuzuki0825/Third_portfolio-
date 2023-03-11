@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 let datas = { title: "", content: "" };
 
 const SuspendPage = () => {
-    // SuspensionsとsetSuspensionsの定義。中断されたタスクの一覧を表示する際に使用。
+    // suspensionsとsetSuspensionsの定義。中断されたタスクの一覧を表示する際に使用。
     const [suspensions, setSuspensions] = useState([]);
     // constとsetCountの定義。完了数を表示する際に使用。
     const [count, setCount] = useState(0);
