@@ -27,4 +27,6 @@ Route::group(['middleware' => 'api'], function(){
     Route::get('suspensions', 'App\Http\Controllers\Api\TaskController@suspension');
     Route::post('suspensions/restore', 'App\Http\Controllers\Api\TaskController@restore');
     Route::post('suspensions/destory', 'App\Http\Controllers\Api\TaskController@destory');
+    Route::get('completions', 'App\Http\Controllers\Api\TaskController@completion');
+    Route::post('completions/destory', 'App\Http\Controllers\Api\TaskController@destory2');
 });
