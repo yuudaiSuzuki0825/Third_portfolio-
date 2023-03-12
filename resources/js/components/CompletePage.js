@@ -24,7 +24,7 @@ const CompletePage = () => {
 
     // ペジネーションの指定。
     const [offset, setOffset] = useState(0); // 何番目のアイテムから表示するか
-    const perPage = 3; // 1ページあたりに表示したいアイテムの数
+    const perPage = 10; // 1ページあたりに表示したいアイテムの数
     const handlePageChange = (data) => {
         // デバック用。消してOK。
         // console.log(data["selected"]);
@@ -158,8 +158,9 @@ const CompletePage = () => {
                 nextLabel={">"} // オプション。無くてもOK。次ページに遷移するボタンを生成。
                 breakLabel={"・・・"} // オプション。省略記号を指定できるが，記述しなかった場合はデフォルトの記号（...）が使用される。コメントアウトして確認を。
                 pageCount={Math.ceil(completions.length / perPage)} // 全部のページ数を指定している。端数は切り上げている。必須。
-                marginPagesDisplayed={2} // オプション。無くてもOK。余白に表示するページ数？恐らく後ろ側のページの範囲を指定している。
-                pageRangeDisplayed={3} // オプション。無くてもOK。表示されるページの範囲を指定？
+                marginPagesDisplayed={3} // オプション。無くてもOK。余白に表示するページ数？恐らく前側と後ろ側のページリンクの表示数を指定している？
+                pageRangeDisplayed={3} // オプション。無くてもOK。表示されるページの範囲を指定？恐らく現在地点のページの前後のページリンク数の合計を指定している？
+                // 上記二つの指定により，例えば，「123・・・789・・・293031」のように表示されるはずである。
                 onPageChange={handlePageChange} // クリック時のfunction
                 // 以下はクラス名をつけるために指定した。公式を参照。
                 containerClassName={"pagination"} // ページネーションであるulに着くクラス名を指定している。

@@ -24,7 +24,7 @@ function TopPage() {
 
     // ペジネーションの指定。
     const [offset, setOffset] = useState(0); // 何番目のアイテムから表示するか
-    const perPage = 3; // 1ページあたりに表示したいアイテムの数
+    const perPage = 10; // 1ページあたりに表示したいアイテムの数
     const handlePageChange = (data) => {
         // デバック用。消してOK。
         // console.log(data["selected"]);
