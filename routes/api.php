@@ -29,4 +29,6 @@ Route::group(['middleware' => 'api'], function(){
     Route::post('suspensions/destory', 'App\Http\Controllers\Api\TaskController@destory');
     Route::get('completions', 'App\Http\Controllers\Api\TaskController@completion');
     Route::post('completions/destory', 'App\Http\Controllers\Api\TaskController@destory2');
+    Route::post('edit', 'App\Http\Controllers\Api\TaskController@edit');
+    Route::post('update', 'App\Http\Controllers\Api\TaskController@update');
 });

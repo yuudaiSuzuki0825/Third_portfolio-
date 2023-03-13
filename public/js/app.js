@@ -19263,6 +19263,169 @@ var CreateForm = function CreateForm(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/EditModal.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/EditModal.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/TextField/TextField.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/createStyles.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+// マテリアルUIをインポート。
+
+
+
+// マテリアルUI。
+
+
+var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(function (theme) {
+  return (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__["default"])({
+    textArea: {
+      marginRight: theme.spacing(2)
+    }
+  });
+});
+
+// inputChangeメソッドで使用。
+var datas = {
+  title: "",
+  content: ""
+};
+var EditModal = function EditModal(_ref) {
+  var show = _ref.show,
+    setShow = _ref.setShow,
+    task = _ref.task;
+  var closeModal = function closeModal() {
+    setShow(false);
+  };
+
+  // マテリアルUI。
+  var classes = useStyles();
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      title: "",
+      content: ""
+    }),
+    _useState2 = _slicedToArray(_useState, 2),
+    editData = _useState2[0],
+    setEditData = _useState2[1];
+
+  // useEffect(() => {
+  //     let isMounted = true;
+  //     if (isMounted) {
+  //         setEditData(datas);
+  //     }
+  //     getEditData();
+  //     return () => {
+  //         isMounted = false;
+  //     };
+  // }, []);
+
+  function getEditData() {
+    axios.post("/api/edit", {
+      id: task.id
+    }).then(function (res) {
+      // console.log(res.data);
+      // console.log(res.data.title);
+      // console.log(res.data.content);
+      datas["title"] = res.data.title;
+      datas["content"] = res.data.content;
+      // setEditData(datas);
+      // console.log(datas);
+    })["catch"](function () {
+      console.log("通信に失敗しました");
+    });
+  }
+  var inputChange = function inputChange(e) {
+    // console.log(e.target.name);
+    // console.log(e.target.value);
+    // const key = e.target.name;
+    // const value = e.target.value;
+    datas[e.target.name] = e.target.value;
+    console.log(datas);
+    // // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
+    var data = Object.assign({}, datas);
+    setEditData(data);
+  };
+  var updateTask = function updateTask() {
+    if (editData == "") {
+      return;
+    }
+    axios.post("/api/update", {
+      id: task.id,
+      title: editData.title,
+      content: editData.content
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  };
+  if (show) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      id: "overlay",
+      onClick: closeModal,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        id: "modalContent",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            id: "title",
+            label: "title",
+            variant: "outlined",
+            name: "title",
+            className: classes.textArea,
+            value: editData.title,
+            onChange: inputChange
+            // onKeyDown={keydownEvent}
+            // onKeyUp={keyUpEvent}
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            id: "content",
+            label: "content",
+            variant: "outlined",
+            name: "content",
+            className: classes.textArea,
+            value: editData.content,
+            onChange: inputChange
+            // onKeyDown={keydownEvent2}
+            // onKeyUp={keyUpEvent2}
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            id: "button",
+            color: "primary",
+            variant: "contained",
+            href: "/",
+            onClick: updateTask
+            // onKeyDown={keydownEvent3}
+            // onKeyUp={keyUpEvent3}
+            ,
+            children: "\u66F4\u65B0"
+          })]
+        })
+      })
+    });
+  } else {
+    return null;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditModal);
+
+/***/ }),
+
 /***/ "./resources/js/components/Modal.js":
 /*!******************************************!*\
   !*** ./resources/js/components/Modal.js ***!
@@ -19285,15 +19448,16 @@ var Modal = function Modal(_ref) {
     completion = _ref.completion,
     suspension = _ref.suspension,
     destoryTask = _ref.destoryTask;
+  // 中断一覧か完了一覧かによって場合分けを行っている。
   var destory = function destory() {
+    // 完了一覧からモーダルウィンドウを呼び出し，ダミーの削除ボタンが押下された時。
     if (completion) {
       destoryTask(completion.id);
     } else {
+      // 中断一覧からモーダルウィンドウを呼び出し，ダミーの削除ボタンが押下された時。
       destoryTask(suspension.id);
     }
-    // destoryTask(completion.id || suspension.id);
   };
-
   var closeModal = function closeModal() {
     setShow(false);
   };
@@ -19711,8 +19875,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _EditModal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditModal */ "./resources/js/components/EditModal.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 // Reactライブラリをインポート。
+
+
 
 
 
@@ -19720,6 +19893,11 @@ var Task = function Task(_ref) {
   var task = _ref.task,
     deleteTask = _ref.deleteTask,
     suspendTask = _ref.suspendTask;
+  // モーダルウィンドウの指定。
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    show = _useState2[0],
+    setShow = _useState2[1];
   var completed = function completed() {
     // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
     // 一度コンソールログにてres.dataによってgetTasksData()が何を行っているのか確認すると良い。各要素がオブジェクトの配列をres.dataとして渡していて，
@@ -19729,31 +19907,47 @@ var Task = function Task(_ref) {
   var suspend = function suspend() {
     suspendTask(task.id);
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
-      className: "parent",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-        children: task.title
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-        children: task.content
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          onClick: completed,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-            className: "fa-regular fa-circle-check"
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "container",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
+        className: "parent",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: task.title
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: task.content
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            onClick: function onClick() {
+              return setShow(true);
+            },
+            className: "editMark",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fa-solid fa-pen-to-square"
+            })
           })
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          onClick: suspend,
-          className: "xmark",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-            className: "fa-regular fa-circle-xmark"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            onClick: completed,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fa-regular fa-circle-check"
+            })
           })
-        })
-      })]
-    })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            onClick: suspend,
+            className: "xmark",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+              className: "fa-regular fa-circle-xmark"
+            })
+          })
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_EditModal__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      show: show,
+      setShow: setShow,
+      task: task
+    })]
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Task);
