@@ -105,4 +105,18 @@ class TaskController extends Controller
         $completions = Count::all();
         return response()->json($completions, 200);
     }
+
+    public function edit(Request $request) {
+        $task = Task::find($request->id);
+        return response()->json($task, 200);
+    }
+
+    public function update(Request $request) {
+        $task = Task::find($request->id);
+        $task->title = $request->title;
+        $task->content = $request->content;
+        return $task->save();
+        // $tasks = Task::all();
+        // return response()->json($tasks, 200);
+    }
 }
