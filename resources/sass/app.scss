@@ -10,13 +10,37 @@
 html {
     font-size: 100%;
     color: #333333;
+    // コンテンツを縦幅一杯にするため。htmlタグからheight指定をする必要がある。
+    height: 100%;
+}
+
+body {
+    // コンテンツを縦幅一杯にするため。
+    height: 100%;
 }
 
 li {
+    // 左端の・を削除するため。
     list-style: none;
 }
 
+#app {
+    // コンテンツを縦幅一杯にするため。
+    height: 100%;
+}
+
+.flex {
+    // フレックスボックスにし，その主軸を縦方向にしている。
+    // その上で，「.container{}」に対してflexの値を1以上にすることでコンテンツ部分を縦幅一杯に設定している。
+    display: flex;
+    flex-direction: column;
+    // コンテンツを縦幅一杯にするため。
+    height: 100%;
+}
+
 .container {
+    // この部分の縦幅を下一杯まで指定するため。これでフッター部分がコンテンツ領域に対し最下部に配置される形になる。
+    flex: 1;
     max-width: 800px;
     margin: 30px auto 0;
 
@@ -133,6 +157,7 @@ li {
 
 footer {
     margin-top: 15px;
+    text-align: center;
 }
 
 @media screen and (max-width: 850px) {

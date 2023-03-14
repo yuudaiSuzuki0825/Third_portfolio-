@@ -14,37 +14,43 @@ import NotFound from "./components/NotFound";
 // Appコンポーネント。
 function App() {
     return (
-        <div className="container">
-            {/* ページタイトルをトップページへ移動するリンクにしている。これは誤ってNotFoundページに飛んでしまったときに前ページへ戻る際，使用してもらうため。 */}
-            <header>
-                <ul>
-                    <li>
-                        <Link to="/" className="appTitle">
-                            todoApp
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/complete" className="appTitle">
-                            completionList
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/suspend" className="appTitle">
-                            suspensionList
-                        </Link>
-                    </li>
-                </ul>
-            </header>
-            <main>
-                <Switch>
-                    {/* トップページにアクセスするとTopPageコンポーネントが表示される。 */}
-                    <Route path="/" exact component={TopPage} />
-                    <Route path="/complete" exact component={CompletePage} />
-                    {/* urlが「/」以外のものを入力した際には以下のコンポーネントが表示される。 */}
-                    <Route path="/suspend" exact component={SuspendPage} />
-                    <Route component={NotFound} />
-                </Switch>
-            </main>
+        <div className="flex">
+            <div className="container">
+                {/* ページタイトルをトップページへ移動するリンクにしている。これは誤ってNotFoundページに飛んでしまったときに前ページへ戻る際，使用してもらうため。 */}
+                <header>
+                    <ul>
+                        <li>
+                            <Link to="/" className="appTitle">
+                                todoApp
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/complete" className="appTitle">
+                                completionList
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/suspend" className="appTitle">
+                                suspensionList
+                            </Link>
+                        </li>
+                    </ul>
+                </header>
+                <main>
+                    <Switch>
+                        {/* トップページにアクセスするとTopPageコンポーネントが表示される。 */}
+                        <Route path="/" exact component={TopPage} />
+                        <Route
+                            path="/complete"
+                            exact
+                            component={CompletePage}
+                        />
+                        {/* urlが「/」以外のものを入力した際には以下のコンポーネントが表示される。 */}
+                        <Route path="/suspend" exact component={SuspendPage} />
+                        <Route component={NotFound} />
+                    </Switch>
+                </main>
+            </div>
             <footer>
                 <p>
                     <small>© 2023 todoApp</small>
