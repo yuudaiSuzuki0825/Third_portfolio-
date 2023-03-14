@@ -2,13 +2,29 @@
 html {
   font-size: 100%;
   color: #333333;
+  height: 100%;
+}
+
+body {
+  height: 100%;
 }
 
 li {
   list-style: none;
 }
 
+#app {
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .container {
+  flex: 1;
   max-width: 800px;
   margin: 30px auto 0;
 }
@@ -115,6 +131,7 @@ li {
 
 footer {
   margin-top: 15px;
+  text-align: center;
 }
 
 @media screen and (max-width: 850px) {
