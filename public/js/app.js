@@ -19280,12 +19280,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/makeStyles.js");
 /* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/createStyles.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // マテリアルUIをインポート。
 
@@ -19301,29 +19295,18 @@ var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["defaul
     }
   });
 });
-
-// inputChangeメソッドで使用。
-var datas = {
-  title: "",
-  content: ""
-};
 var EditModal = function EditModal(_ref) {
   var show = _ref.show,
     setShow = _ref.setShow,
-    task = _ref.task;
+    task = _ref.task,
+    editData = _ref.editData,
+    setEditData = _ref.setEditData;
   var closeModal = function closeModal() {
     setShow(false);
   };
 
   // マテリアルUI。
   var classes = useStyles();
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-      title: "",
-      content: ""
-    }),
-    _useState2 = _slicedToArray(_useState, 2),
-    editData = _useState2[0],
-    setEditData = _useState2[1];
 
   // useEffect(() => {
   //     let isMounted = true;
@@ -19334,34 +19317,77 @@ var EditModal = function EditModal(_ref) {
   //     return () => {
   //         isMounted = false;
   //     };
+  //     // let abortCtrl = new AbortController();
+  //     function getEditData() {
+  //         axios
+  //             .post("/api/edit", {
+  //                 id: task.id,
+  //             })
+  //             .then((res) => {
+  //                 // console.log(res.data);
+  //                 console.log(res.data.title);
+  //                 console.log(res.data.content);
+  //                 datas["title"] = res.data.title;
+  //                 datas["content"] = res.data.content;
+  //                 setEditData(datas);
+  //                 // console.log(datas);
+  //             })
+  //             .catch(() => {
+  //                 console.log("通信に失敗しました");
+  //             });
+  //     }
+  //     // getEditData();
+  //     // return () => {
+  //     //     abortCtrl.abort();
+  //     // };
   // }, []);
 
-  function getEditData() {
-    axios.post("/api/edit", {
-      id: task.id
-    }).then(function (res) {
-      // console.log(res.data);
-      // console.log(res.data.title);
-      // console.log(res.data.content);
-      datas["title"] = res.data.title;
-      datas["content"] = res.data.content;
-      // setEditData(datas);
-      // console.log(datas);
-    })["catch"](function () {
-      console.log("通信に失敗しました");
-    });
-  }
+  // function getEditData() {
+  //     axios
+  //         .post("/api/edit", {
+  //             id: task.id,
+  //         })
+  //         .then((res) => {
+  //             // console.log(res.data);
+  //             // console.log(res.data.title);
+  //             // console.log(res.data.content);
+  //             datas["title"] = res.data.title;
+  //             datas["content"] = res.data.content;
+  //             setEditData(datas);
+  //             // console.log(datas);
+  //         })
+  //         .catch(() => {
+  //             console.log("通信に失敗しました");
+  //         });
+  // }
+
   var inputChange = function inputChange(e) {
-    // console.log(e.target.name);
-    // console.log(e.target.value);
+    var key = e.target.name;
+    if (key === "title") {
+      var value = e.target.value;
+      var datas = {
+        title: value,
+        content: editData.content
+      };
+      var data = Object.assign({}, datas);
+      setEditData(data);
+    } else if (key === "content") {
+      var _value = e.target.value;
+      var _datas = {
+        title: editData.title,
+        content: _value
+      };
+      var _data = Object.assign({}, _datas);
+      setEditData(_data);
+    }
+    // e.target.name = "title" ? console.log("hoge") : null;
+    // e.target.name = "content" ? console.log("huga") : null;
     // const key = e.target.name;
     // const value = e.target.value;
-    datas[e.target.name] = e.target.value;
-    console.log(datas);
-    // // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
-    var data = Object.assign({}, datas);
-    setEditData(data);
+    // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
+    // setEditData(data);
   };
+
   var updateTask = function updateTask() {
     if (editData == "") {
       return;
@@ -19889,6 +19915,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var datas = {
+  title: "",
+  content: ""
+};
 var Task = function Task(_ref) {
   var task = _ref.task,
     deleteTask = _ref.deleteTask,
@@ -19898,6 +19928,13 @@ var Task = function Task(_ref) {
     _useState2 = _slicedToArray(_useState, 2),
     show = _useState2[0],
     setShow = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+      title: "",
+      content: ""
+    }),
+    _useState4 = _slicedToArray(_useState3, 2),
+    editData = _useState4[0],
+    setEditData = _useState4[1];
   var completed = function completed() {
     // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
     // 一度コンソールログにてres.dataによってgetTasksData()が何を行っているのか確認すると良い。各要素がオブジェクトの配列をres.dataとして渡していて，
@@ -19906,6 +19943,25 @@ var Task = function Task(_ref) {
   };
   var suspend = function suspend() {
     suspendTask(task.id);
+  };
+  function getEditData() {
+    axios.post("/api/edit", {
+      id: task.id
+    }).then(function (res) {
+      // console.log(res.data);
+      console.log(res.data.title);
+      console.log(res.data.content);
+      datas["title"] = res.data.title;
+      datas["content"] = res.data.content;
+      setEditData(datas);
+      // console.log(datas);
+    })["catch"](function () {
+      console.log("通信に失敗しました");
+    });
+  }
+  var modalOpen = function modalOpen() {
+    setShow(true);
+    getEditData();
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -19918,9 +19974,7 @@ var Task = function Task(_ref) {
           children: task.content
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            onClick: function onClick() {
-              return setShow(true);
-            },
+            onClick: modalOpen,
             className: "editMark",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
               className: "fa-solid fa-pen-to-square"
@@ -19946,7 +20000,9 @@ var Task = function Task(_ref) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_EditModal__WEBPACK_IMPORTED_MODULE_1__["default"], {
       show: show,
       setShow: setShow,
-      task: task
+      task: task,
+      editData: editData,
+      setEditData: setEditData
     })]
   });
 };

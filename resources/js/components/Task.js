@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import EditModal from "./EditModal";
 
+let datas = { title: "", content: "" };
+
 const Task = ({ task, deleteTask, suspendTask }) => {
     // モーダルウィンドウの指定。
     const [show, setShow] = useState(false);
+    const [editData, setEditData] = useState({ title: "", content: "" });
 
     const completed = () => {
         // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
@@ -16,6 +19,31 @@ const Task = ({ task, deleteTask, suspendTask }) => {
     const suspend = () => {
         suspendTask(task.id);
     };
+
+    function getEditData() {
+        axios
+            .post("/api/edit", {
+                id: task.id,
+            })
+            .then((res) => {
+                // console.log(res.data);
+                console.log(res.data.title);
+                console.log(res.data.content);
+                datas["title"] = res.data.title;
+                datas["content"] = res.data.content;
+                setEditData(datas);
+                // console.log(datas);
+            })
+            .catch(() => {
+                console.log("通信に失敗しました");
+            });
+    }
+
+    const modalOpen = () => {
+        setShow(true);
+        getEditData();
+    };
+
     return (
         <>
             <div className="container">
@@ -23,10 +51,7 @@ const Task = ({ task, deleteTask, suspendTask }) => {
                     <li>{task.title}</li>
                     <li>{task.content}</li>
                     <li>
-                        <button
-                            onClick={() => setShow(true)}
-                            className="editMark"
-                        >
+                        <button onClick={modalOpen} className="editMark">
                             <i className="fa-solid fa-pen-to-square"></i>
                         </button>
                     </li>
@@ -42,7 +67,13 @@ const Task = ({ task, deleteTask, suspendTask }) => {
                     </li>
                 </ul>
             </div>
-            <EditModal show={show} setShow={setShow} task={task} />
+            <EditModal
+                show={show}
+                setShow={setShow}
+                task={task}
+                editData={editData}
+                setEditData={setEditData}
+            />
         </>
     );
 };
