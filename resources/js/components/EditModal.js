@@ -12,18 +12,13 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
-// inputChangeメソッドで使用。
-let datas = { title: "", content: "" };
-
-const EditModal = ({ show, setShow, task }) => {
+const EditModal = ({ show, setShow, task, editData, setEditData }) => {
     const closeModal = () => {
         setShow(false);
     };
 
     // マテリアルUI。
     const classes = useStyles();
-
-    const [editData, setEditData] = useState({ title: "", content: "" });
 
     // useEffect(() => {
     //     let isMounted = true;
@@ -34,37 +29,63 @@ const EditModal = ({ show, setShow, task }) => {
     //     return () => {
     //         isMounted = false;
     //     };
+    //     // let abortCtrl = new AbortController();
+    //     function getEditData() {
+    //         axios
+    //             .post("/api/edit", {
+    //                 id: task.id,
+    //             })
+    //             .then((res) => {
+    //                 // console.log(res.data);
+    //                 console.log(res.data.title);
+    //                 console.log(res.data.content);
+    //                 datas["title"] = res.data.title;
+    //                 datas["content"] = res.data.content;
+    //                 setEditData(datas);
+    //                 // console.log(datas);
+    //             })
+    //             .catch(() => {
+    //                 console.log("通信に失敗しました");
+    //             });
+    //     }
+    //     // getEditData();
+    //     // return () => {
+    //     //     abortCtrl.abort();
+    //     // };
     // }, []);
 
-    function getEditData() {
-        axios
-            .post("/api/edit", {
-                id: task.id,
-            })
-            .then((res) => {
-                // console.log(res.data);
-                // console.log(res.data.title);
-                // console.log(res.data.content);
-                datas["title"] = res.data.title;
-                datas["content"] = res.data.content;
-                // setEditData(datas);
-                // console.log(datas);
-            })
-            .catch(() => {
-                console.log("通信に失敗しました");
-            });
-    }
+    // function getEditData() {
+    //     axios
+    //         .post("/api/edit", {
+    //             id: task.id,
+    //         })
+    //         .then((res) => {
+    //             // console.log(res.data);
+    //             // console.log(res.data.title);
+    //             // console.log(res.data.content);
+    //             datas["title"] = res.data.title;
+    //             datas["content"] = res.data.content;
+    //             setEditData(datas);
+    //             // console.log(datas);
+    //         })
+    //         .catch(() => {
+    //             console.log("通信に失敗しました");
+    //         });
+    // }
 
     const inputChange = (e) => {
-        // console.log(e.target.name);
-        // console.log(e.target.value);
-        // const key = e.target.name;
-        // const value = e.target.value;
-        datas[e.target.name] = e.target.value;
-        console.log(datas);
-        // // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
-        let data = Object.assign({}, datas);
-        setEditData(data);
+        const key = e.target.name;
+        if (key === "title") {
+            const value = e.target.value;
+            let datas = { title: value, content: editData.content };
+            let data = Object.assign({}, datas);
+            setEditData(data);
+        } else if (key === "content") {
+            const value = e.target.value;
+            let datas = { title: editData.title, content: value };
+            let data = Object.assign({}, datas);
+            setEditData(data);
+        }
     };
 
     const updateTask = () => {
