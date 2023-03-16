@@ -19301,93 +19301,48 @@ var EditModal = function EditModal(_ref) {
     task = _ref.task,
     editData = _ref.editData,
     setEditData = _ref.setEditData;
+  // モーダルウインドウのマスク部分がクリックされた時，以下のメソッドが実行され，モーダルウインドウが非表示になる。
   var closeModal = function closeModal() {
+    // 本コンポーネントのreturn内のif文の条件式を満たさなくなるのでnullを返す。すなわち，モーダルウインドウが非表示となる。
     setShow(false);
   };
 
   // マテリアルUI。
   var classes = useStyles();
 
-  // useEffect(() => {
-  //     let isMounted = true;
-  //     if (isMounted) {
-  //         setEditData(datas);
-  //     }
-  //     getEditData();
-  //     return () => {
-  //         isMounted = false;
-  //     };
-  //     // let abortCtrl = new AbortController();
-  //     function getEditData() {
-  //         axios
-  //             .post("/api/edit", {
-  //                 id: task.id,
-  //             })
-  //             .then((res) => {
-  //                 // console.log(res.data);
-  //                 console.log(res.data.title);
-  //                 console.log(res.data.content);
-  //                 datas["title"] = res.data.title;
-  //                 datas["content"] = res.data.content;
-  //                 setEditData(datas);
-  //                 // console.log(datas);
-  //             })
-  //             .catch(() => {
-  //                 console.log("通信に失敗しました");
-  //             });
-  //     }
-  //     // getEditData();
-  //     // return () => {
-  //     //     abortCtrl.abort();
-  //     // };
-  // }, []);
-
-  // function getEditData() {
-  //     axios
-  //         .post("/api/edit", {
-  //             id: task.id,
-  //         })
-  //         .then((res) => {
-  //             // console.log(res.data);
-  //             // console.log(res.data.title);
-  //             // console.log(res.data.content);
-  //             datas["title"] = res.data.title;
-  //             datas["content"] = res.data.content;
-  //             setEditData(datas);
-  //             // console.log(datas);
-  //         })
-  //         .catch(() => {
-  //             console.log("通信に失敗しました");
-  //         });
-  // }
-
+  // フォームの入力値が変化するたびに実行される関数。
   var inputChange = function inputChange(e) {
+    // 入力値が変化したフォームのname属性の値を取得している。値はtitleかcontentのどちらか。
     var key = e.target.name;
+    // タイトルのフォームの入力値が変化したとき。
     if (key === "title") {
+      // タイトルのフォームの入力値を取得。
       var value = e.target.value;
+      // 新たにオブジェクトを定義。中身は，titleプロパティとcontentプロパティ。titleプロパティには先程のvalueを値としてセットし，
+      // contentプロパティにはeditDataのcontentプロパティの値をセットしている。
       var datas = {
         title: value,
         content: editData.content
       };
+      // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
       var data = Object.assign({}, datas);
+      // editDataの新たな値として差し替えを行っている。
       setEditData(data);
     } else if (key === "content") {
+      // コンテンツのフォームの入力値が変化したとき。
+      // 以下の処理は上記と逆ではあるが同じフロー。
       var _value = e.target.value;
+      // 今度はtitleプロパティの方がeditDataのtitleプロパティの値でセットされている。contentプロパティにはvalueがセットされている。
       var _datas = {
         title: editData.title,
         content: _value
       };
+      // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
       var _data = Object.assign({}, _datas);
+      // editDataの新たな値として差し替えを行っている。
       setEditData(_data);
     }
-    // e.target.name = "title" ? console.log("hoge") : null;
-    // e.target.name = "content" ? console.log("huga") : null;
-    // const key = e.target.name;
-    // const value = e.target.value;
-    // 先程作成されたdatasをオブジェクトとして再加工している。何故かこの処理を挟まないと正常に動作しない…。
-    // setEditData(data);
   };
-
   var updateTask = function updateTask() {
     if (editData == "") {
       return;
@@ -19913,6 +19868,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+// getEditData()で使用するため。
+
 
 
 var datas = {
@@ -19923,11 +19880,13 @@ var Task = function Task(_ref) {
   var task = _ref.task,
     deleteTask = _ref.deleteTask,
     suspendTask = _ref.suspendTask;
-  // モーダルウィンドウの指定。
+  // モーダルウィンドウの指定。falseの時はEditModal.jsにおけるreturn内のif文の条件式（if(show)）を満たさないのでnullを返している。その結果，モーダルウインドウの表示はされない。
+  // 編集ボタンがクリックされた時に，modalOpenメソッドが実行され，setShow(true)により値が変化。その結果，return内のif文の条件式を満たすことになりモーダルウインドウが表示される。
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState2 = _slicedToArray(_useState, 2),
     show = _useState2[0],
     setShow = _useState2[1];
+  // 編集ボタンを押下した際に表示されるモーダルウインドウのフォームに，予め以前の値をセットしておくために使用する。getEditData()を参照。
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
       title: "",
       content: ""
@@ -19937,29 +19896,37 @@ var Task = function Task(_ref) {
     setEditData = _useState4[1];
   var completed = function completed() {
     // TopPageコンポーネントのdeleteTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
-    // 一度コンソールログにてres.dataによってgetTasksData()が何を行っているのか確認すると良い。各要素がオブジェクトの配列をres.dataとして渡していて，
+    // 一度コンソールログにてres.dataによってgetTasksData()が何を行っているのか確認すると良い。各要素がオブジェクトになっている配列をres.dataとして渡していて，
     // そのオブジェクトのプロパティの中にid（主キー）も含まれている。そのidを用いている。
     deleteTask(task.id);
   };
   var suspend = function suspend() {
+    // TopPageコンポーネントのsuspendTaskメソッドを実行している。引数として各タスクのid（uuidのものではなく，データベースの主キーの方）を渡している。
     suspendTask(task.id);
   };
+
+  // この関数では主にアクシオスを利用してサーバーサイドと通信して，Tasksテーブルの中から主キー（id）によって指定されたレコードを1つ取得する役割を果たしている。
+  // 「.post("/api/edit")」はpostメソッドにて/api/editにリクエストを送信しているという意味。api.phpに記載されているeditアクションへと命令が渡される形になる。
   function getEditData() {
     axios.post("/api/edit", {
       id: task.id
     }).then(function (res) {
-      // console.log(res.data);
-      console.log(res.data.title);
-      console.log(res.data.content);
+      // resには先程主キーで絞り込んだ該当レコード（$task）が格納されている。res.dataでアクセスできる。
+      // 今回はtitleプロパティとcontentプロパティのみ必要。コンソールログで一度res.dataの中身を確認してみてほしい。
+      // 上記で既に定義済みのdatas（オブジェクト）に各プロパティの値を代入している。
       datas["title"] = res.data.title;
       datas["content"] = res.data.content;
+      // 代入が済んだdatasを新しいeditDataとして差し替えを行っている。
       setEditData(datas);
-      // console.log(datas);
     })["catch"](function () {
+      // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
       console.log("通信に失敗しました");
     });
   }
+
+  // この関数では該当するタスクのモーダルウインドウを表示させ，その中のフォーム内に予め以前の値をセットしておく役割を果たしている。
   var modalOpen = function modalOpen() {
+    // trueをセットすることでEditModal.jsのreturn内のif文の条件式を満たす。よって，モーダルウインドウ部分が表示される。
     setShow(true);
     getEditData();
   };
@@ -20111,9 +20078,9 @@ function TopPage() {
   // 「.get("/api/tasks")」はgetメソッドにて/api/tasksにリクエストを送信しているという意味。api.phpに記載されているindexアクションへと命令が渡される形になる。
   var getTasksData = function getTasksData() {
     axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/tasks").then(function (res) {
-      // resではindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
+      // resにはindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
       // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
-      // console.log(res.data);
+      console.log(res.data);
       setTasks(res.data);
     })["catch"](function () {
       // axiosを使ってサーバーサイド（Laravel側）へのアクセスに失敗したとき。
