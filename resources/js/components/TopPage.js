@@ -51,9 +51,9 @@ function TopPage() {
         axios
             .get("/api/tasks")
             .then((res) => {
-                // resではindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
+                // resにはindexアクション内における$tasksが格納されている。res.dataでアクセスできる。
                 // $tasks（Tasksテーブルの全レコード）をTasksにセットしている。これで表示が可能になる。
-                // console.log(res.data);
+                console.log(res.data);
                 setTasks(res.data);
             })
             .catch(() => {
