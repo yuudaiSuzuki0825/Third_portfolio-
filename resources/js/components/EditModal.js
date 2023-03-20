@@ -50,8 +50,10 @@ const EditModal = ({ show, setShow, task, editData, setEditData }) => {
         }
     };
 
+    // この関数では主にアクシオスを利用してタスクの更新をサーバーサイドにリクエストする役割を果たしている。
     const updateTask = () => {
-        if (editData == "") {
+        // 早期リターン。フォームのvalueが空の時。
+        if (editData.title == "" || editData.content) {
             return;
         }
         axios
