@@ -19343,8 +19343,11 @@ var EditModal = function EditModal(_ref) {
       setEditData(_data);
     }
   };
+
+  // この関数では主にアクシオスを利用してタスクの更新をサーバーサイドにリクエストする役割を果たしている。
   var updateTask = function updateTask() {
-    if (editData == "") {
+    // 早期リターン。フォームのvalueが空の時。
+    if (editData.title == "" || editData.content) {
       return;
     }
     axios.post("/api/update", {
