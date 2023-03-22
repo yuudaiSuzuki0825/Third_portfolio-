@@ -116,7 +116,5 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->content = $request->content;
         return $task->save();
-        // $tasks = Task::all();
-        // return response()->json($tasks, 200);
     }
 }

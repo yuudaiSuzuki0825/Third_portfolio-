@@ -53,23 +53,30 @@ const EditModal = ({ show, setShow, task, editData, setEditData }) => {
     // この関数では主にアクシオスを利用してタスクの更新をサーバーサイドにリクエストする役割を果たしている。
     const updateTask = () => {
         // 早期リターン。フォームのvalueが空の時。
-        if (editData.title == "" || editData.content) {
-            return;
-        }
+        // if (editData.title == "" || editData.content) {
+        //     return;
+        // }
+        // /api/updateにpostメソッドでリクエストを送っている。サーバーサイドのupdateアクションが実行される形になる。
         axios
             .post("/api/update", {
+                // レコードを識別するためにidが必要。そのためにtaskを渡した。このidはデータベースの主キーの方のものであり，uuidではない。
                 id: task.id,
+                // フォーム内で新規に更新された内容（タイトルとコンテンツ）を渡している。
                 title: editData.title,
                 content: editData.content,
             })
+            // 今回サーバーサイドからは何もデータを受け取らないのでthenはなし。
             .catch((error) => {
                 console.log(error);
             });
     };
 
+    // 編集ボタンがクリックされた時，setShow()によりshowの値がtrueに差し替えられる。これによりモーダルウインドウ（編集欄）が表示される。
     if (show) {
         return (
+            // マスク部分がクリックされるとモーダルウインドウ（編集欄）が閉じられる。
             <div id="overlay" onClick={closeModal}>
+                {/* モーダルウインドウ内部がクリックされても閉じてしまわないようにしている（e.stopPropagation()がその処理を行っている）。 */}
                 <div id="modalContent" onClick={(e) => e.stopPropagation()}>
                     <form>
                         <TextField

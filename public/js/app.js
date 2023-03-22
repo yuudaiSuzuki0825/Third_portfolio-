@@ -19347,61 +19347,72 @@ var EditModal = function EditModal(_ref) {
   // この関数では主にアクシオスを利用してタスクの更新をサーバーサイドにリクエストする役割を果たしている。
   var updateTask = function updateTask() {
     // 早期リターン。フォームのvalueが空の時。
-    if (editData.title == "" || editData.content) {
-      return;
-    }
+    // if (editData.title == "" || editData.content) {
+    //     return;
+    // }
+    // /api/updateにpostメソッドでリクエストを送っている。サーバーサイドのupdateアクションが実行される形になる。
     axios.post("/api/update", {
+      // レコードを識別するためにidが必要。そのためにtaskを渡した。このidはデータベースの主キーの方のものであり，uuidではない。
       id: task.id,
+      // フォーム内で新規に更新された内容（タイトルとコンテンツ）を渡している。
       title: editData.title,
       content: editData.content
-    })["catch"](function (error) {
+    })
+    // 今回サーバーサイドからは何もデータを受け取らないのでthenはなし。
+    ["catch"](function (error) {
       console.log(error);
     });
   };
+
+  // 編集ボタンがクリックされた時，setShow()によりshowの値がtrueに差し替えられる。これによりモーダルウインドウ（編集欄）が表示される。
   if (show) {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      id: "overlay",
-      onClick: closeModal,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        id: "modalContent",
-        onClick: function onClick(e) {
-          return e.stopPropagation();
-        },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            id: "title",
-            label: "title",
-            variant: "outlined",
-            name: "title",
-            className: classes.textArea,
-            value: editData.title,
-            onChange: inputChange
-            // onKeyDown={keydownEvent}
-            // onKeyUp={keyUpEvent}
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            id: "content",
-            label: "content",
-            variant: "outlined",
-            name: "content",
-            className: classes.textArea,
-            value: editData.content,
-            onChange: inputChange
-            // onKeyDown={keydownEvent2}
-            // onKeyUp={keyUpEvent2}
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            id: "button",
-            color: "primary",
-            variant: "contained",
-            href: "/",
-            onClick: updateTask
-            // onKeyDown={keydownEvent3}
-            // onKeyUp={keyUpEvent3}
-            ,
-            children: "\u66F4\u65B0"
-          })]
+    return (
+      /*#__PURE__*/
+      // マスク部分がクリックされるとモーダルウインドウ（編集欄）が閉じられる。
+      (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        id: "overlay",
+        onClick: closeModal,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          id: "modalContent",
+          onClick: function onClick(e) {
+            return e.stopPropagation();
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              id: "title",
+              label: "title",
+              variant: "outlined",
+              name: "title",
+              className: classes.textArea,
+              value: editData.title,
+              onChange: inputChange
+              // onKeyDown={keydownEvent}
+              // onKeyUp={keyUpEvent}
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              id: "content",
+              label: "content",
+              variant: "outlined",
+              name: "content",
+              className: classes.textArea,
+              value: editData.content,
+              onChange: inputChange
+              // onKeyDown={keydownEvent2}
+              // onKeyUp={keyUpEvent2}
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__["default"], {
+              id: "button",
+              color: "primary",
+              variant: "contained",
+              href: "/",
+              onClick: updateTask
+              // onKeyDown={keydownEvent3}
+              // onKeyUp={keyUpEvent3}
+              ,
+              children: "\u66F4\u65B0"
+            })]
+          })
         })
       })
-    });
+    );
   } else {
     return null;
   }
