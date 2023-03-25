@@ -19075,7 +19075,7 @@ var Completion = function Completion(_ref) {
             onClick: function onClick() {
               return setShow(true);
             },
-            className: "xmark",
+            className: "xMark",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
               className: "fa-regular fa-circle-xmark"
             })
@@ -19839,7 +19839,7 @@ var Suspension = function Suspension(_ref) {
             onClick: function onClick() {
               return setShow(true);
             },
-            className: "xmark",
+            className: "xMark",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
               className: "fa-regular fa-circle-xmark"
             })
@@ -19971,7 +19971,7 @@ var Task = function Task(_ref) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
             onClick: suspend,
-            className: "xmark",
+            className: "xMark",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
               className: "fa-regular fa-circle-xmark"
             })
