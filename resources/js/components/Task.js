@@ -73,7 +73,7 @@ const Task = ({ task, deleteTask, suspendTask }) => {
                     </li>
                     <li>
                         {/* 中断ボタン */}
-                        <button onClick={suspend} className="xmark">
+                        <button onClick={suspend} className="xMark">
                             <i className="fa-regular fa-circle-xmark"></i>
                         </button>
                     </li>

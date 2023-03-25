@@ -26,7 +26,7 @@ const Suspension = ({ suspension, restoreTask, destoryTask }) => {
                         </button>
                     </li>
                     <li>
-                        <button onClick={() => setShow(true)} className="xmark">
+                        <button onClick={() => setShow(true)} className="xMark">
                             <i className="fa-regular fa-circle-xmark"></i>
                         </button>
                     </li>
