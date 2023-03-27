@@ -19295,12 +19295,20 @@ var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["defaul
     }
   });
 });
+
+// フラグを初期化している。カーソルキー移動のメソッドで使用。
+var flg = false;
 var EditModal = function EditModal(_ref) {
   var show = _ref.show,
     setShow = _ref.setShow,
     task = _ref.task,
     editData = _ref.editData,
     setEditData = _ref.setEditData;
+  // DOM操作。
+  var title2 = document.getElementById("title2");
+  var content2 = document.getElementById("content2");
+  var button2 = document.getElementById("button2");
+
   // モーダルウインドウのマスク部分がクリックされた時，以下のメソッドが実行され，モーダルウインドウが非表示になる。
   var closeModal = function closeModal() {
     // 本コンポーネントのreturn内のif文の条件式を満たさなくなるのでnullを返す。すなわち，モーダルウインドウが非表示となる。
@@ -19364,6 +19372,73 @@ var EditModal = function EditModal(_ref) {
     });
   };
 
+  // -----------------------------------
+  // カーソルキー移動のメソッドここから。
+  // -----------------------------------
+
+  // keydownEvent及びkeyUpEventはtitleからcontentに移動する際に使用。
+  // keydownEvent2及びkeyUpEvent2はcontentからbuttonに，contentからtitleに移動する際に使用。
+  // keydownEvent3及びkeyUpEvent3はbuttonからcontentに移動する際に使用。
+  // ArrowRightは右矢印ボタンを，ArrowLeftは左矢印ボタンを意味している。
+
+  var keydownEvent = function keydownEvent(e) {
+    // 右矢印ボタンがクリックされ，かつtitleフォームの値の最後の地点に位置していた時。
+    if (e.code == "ArrowRight" && title2.selectionStart == title2.value.length) {
+      // フラグを反転させている。
+      flg = true;
+      // console.log("hoge");
+    }
+  };
+
+  var keyUpEvent = function keyUpEvent(e) {
+    // 右矢印ボタンがクリックされ，かつflgがtrueの時。
+    if (e.code == "ArrowRight" && flg) {
+      // フラグを元に戻している。
+      flg = false;
+      // contentフォームにフォーカスしている。
+      content2.focus();
+      // さらに，フォーカス地点を最後の文字にしている。
+      // フォーカスとその地点の指定の両方を達成するためにはkeydownとkeyupの両イベントでメソッドを作る必要があった。
+      content2.setSelectionRange(content2.value.length, content2.value.length);
+    }
+  };
+
+  // 以降は上記処理と大まかな流れは同じ。
+  var keydownEvent2 = function keydownEvent2(e) {
+    if (e.code == "ArrowRight" && content2.selectionStart == content2.value.length) {
+      flg = true;
+    }
+    if (e.code == "ArrowLeft" && content2.selectionStart == 0) {
+      flg = true;
+    }
+  };
+  var keyUpEvent2 = function keyUpEvent2(e) {
+    if (e.code == "ArrowRight" && flg) {
+      button2.focus();
+    }
+    if (e.code == "ArrowLeft" && flg) {
+      flg = false;
+      title2.focus();
+      title2.setSelectionRange(title2.value.length, title2.value.length);
+    }
+  };
+  var keydownEvent3 = function keydownEvent3(e) {
+    if (e.code == "ArrowLeft") {
+      flg = true;
+    }
+  };
+  var keyUpEvent3 = function keyUpEvent3(e) {
+    if (e.code == "ArrowLeft" && flg) {
+      flg = false;
+      content2.focus();
+      content2.setSelectionRange(content2.value.length, content2.value.length);
+    }
+  };
+
+  // -----------------------------------
+  // カーソルキー移動のメソッドここまで。
+  // -----------------------------------
+
   // 編集ボタンがクリックされた時，setShow()によりshowの値がtrueに差し替えられる。これによりモーダルウインドウ（編集欄）が表示される。
   if (show) {
     return (
@@ -19379,34 +19454,33 @@ var EditModal = function EditModal(_ref) {
           },
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              id: "title",
+              id: "title2",
               label: "title",
               variant: "outlined",
               name: "title",
               className: classes.textArea,
               value: editData.title,
-              onChange: inputChange
-              // onKeyDown={keydownEvent}
-              // onKeyUp={keyUpEvent}
+              onChange: inputChange,
+              onKeyDown: keydownEvent,
+              onKeyUp: keyUpEvent
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              id: "content",
+              id: "content2",
               label: "content",
               variant: "outlined",
               name: "content",
               className: classes.textArea,
               value: editData.content,
-              onChange: inputChange
-              // onKeyDown={keydownEvent2}
-              // onKeyUp={keyUpEvent2}
+              onChange: inputChange,
+              onKeyDown: keydownEvent2,
+              onKeyUp: keyUpEvent2
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__["default"], {
-              id: "button",
+              id: "button2",
               color: "primary",
               variant: "contained",
               href: "/",
-              onClick: updateTask
-              // onKeyDown={keydownEvent3}
-              // onKeyUp={keyUpEvent3}
-              ,
+              onClick: updateTask,
+              onKeyDown: keydownEvent3,
+              onKeyUp: keyUpEvent3,
               children: "\u66F4\u65B0"
             })]
           })
