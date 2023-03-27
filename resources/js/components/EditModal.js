@@ -12,7 +12,15 @@ const useStyles = makeStyles((theme) =>
     })
 );
 
+// フラグを初期化している。カーソルキー移動のメソッドで使用。
+let flg = false;
+
 const EditModal = ({ show, setShow, task, editData, setEditData }) => {
+    // DOM操作。
+    const title2 = document.getElementById("title2");
+    const content2 = document.getElementById("content2");
+    const button2 = document.getElementById("button2");
+
     // モーダルウインドウのマスク部分がクリックされた時，以下のメソッドが実行され，モーダルウインドウが非表示になる。
     const closeModal = () => {
         // 本コンポーネントのreturn内のif文の条件式を満たさなくなるのでnullを返す。すなわち，モーダルウインドウが非表示となる。
@@ -71,6 +79,88 @@ const EditModal = ({ show, setShow, task, editData, setEditData }) => {
             });
     };
 
+    // -----------------------------------
+    // カーソルキー移動のメソッドここから。
+    // -----------------------------------
+
+    // keydownEvent及びkeyUpEventはtitleからcontentに移動する際に使用。
+    // keydownEvent2及びkeyUpEvent2はcontentからbuttonに，contentからtitleに移動する際に使用。
+    // keydownEvent3及びkeyUpEvent3はbuttonからcontentに移動する際に使用。
+    // ArrowRightは右矢印ボタンを，ArrowLeftは左矢印ボタンを意味している。
+
+    const keydownEvent = (e) => {
+        // 右矢印ボタンがクリックされ，かつtitleフォームの値の最後の地点に位置していた時。
+        if (
+            e.code == "ArrowRight" &&
+            title2.selectionStart == title2.value.length
+        ) {
+            // フラグを反転させている。
+            flg = true;
+            // console.log("hoge");
+        }
+    };
+
+    const keyUpEvent = (e) => {
+        // 右矢印ボタンがクリックされ，かつflgがtrueの時。
+        if (e.code == "ArrowRight" && flg) {
+            // フラグを元に戻している。
+            flg = false;
+            // contentフォームにフォーカスしている。
+            content2.focus();
+            // さらに，フォーカス地点を最後の文字にしている。
+            // フォーカスとその地点の指定の両方を達成するためにはkeydownとkeyupの両イベントでメソッドを作る必要があった。
+            content2.setSelectionRange(
+                content2.value.length,
+                content2.value.length
+            );
+        }
+    };
+
+    // 以降は上記処理と大まかな流れは同じ。
+    const keydownEvent2 = (e) => {
+        if (
+            e.code == "ArrowRight" &&
+            content2.selectionStart == content2.value.length
+        ) {
+            flg = true;
+        }
+        if (e.code == "ArrowLeft" && content2.selectionStart == 0) {
+            flg = true;
+        }
+    };
+
+    const keyUpEvent2 = (e) => {
+        if (e.code == "ArrowRight" && flg) {
+            button2.focus();
+        }
+        if (e.code == "ArrowLeft" && flg) {
+            flg = false;
+            title2.focus();
+            title2.setSelectionRange(title2.value.length, title2.value.length);
+        }
+    };
+
+    const keydownEvent3 = (e) => {
+        if (e.code == "ArrowLeft") {
+            flg = true;
+        }
+    };
+
+    const keyUpEvent3 = (e) => {
+        if (e.code == "ArrowLeft" && flg) {
+            flg = false;
+            content2.focus();
+            content2.setSelectionRange(
+                content2.value.length,
+                content2.value.length
+            );
+        }
+    };
+
+    // -----------------------------------
+    // カーソルキー移動のメソッドここまで。
+    // -----------------------------------
+
     // 編集ボタンがクリックされた時，setShow()によりshowの値がtrueに差し替えられる。これによりモーダルウインドウ（編集欄）が表示される。
     if (show) {
         return (
@@ -80,35 +170,35 @@ const EditModal = ({ show, setShow, task, editData, setEditData }) => {
                 <div id="modalContent" onClick={(e) => e.stopPropagation()}>
                     <form>
                         <TextField
-                            id="title"
+                            id="title2"
                             label="title"
                             variant="outlined"
                             name="title"
                             className={classes.textArea}
                             value={editData.title}
                             onChange={inputChange}
-                            // onKeyDown={keydownEvent}
-                            // onKeyUp={keyUpEvent}
+                            onKeyDown={keydownEvent}
+                            onKeyUp={keyUpEvent}
                         />
                         <TextField
-                            id="content"
+                            id="content2"
                             label="content"
                             variant="outlined"
                             name="content"
                             className={classes.textArea}
                             value={editData.content}
                             onChange={inputChange}
-                            // onKeyDown={keydownEvent2}
-                            // onKeyUp={keyUpEvent2}
+                            onKeyDown={keydownEvent2}
+                            onKeyUp={keyUpEvent2}
                         />
                         <Button
-                            id="button"
+                            id="button2"
                             color="primary"
                             variant="contained"
                             href="/"
                             onClick={updateTask}
-                            // onKeyDown={keydownEvent3}
-                            // onKeyUp={keyUpEvent3}
+                            onKeyDown={keydownEvent3}
+                            onKeyUp={keyUpEvent3}
                         >
                             更新
                         </Button>
