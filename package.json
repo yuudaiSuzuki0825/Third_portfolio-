@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@material-ui/core": "^4.12.4",
+        "react-hook-form": "^7.43.8",
         "react-paginate": "^8.1.4",
         "react-router-dom": "^5.3.4",
         "uuid": "^9.0.0"

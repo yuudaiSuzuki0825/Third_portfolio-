@@ -19124,6 +19124,9 @@ var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["defaul
   return (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__["default"])({
     textArea: {
       marginRight: theme.spacing(2)
+    },
+    button: {
+      marginTop: theme.spacing(1)
     }
   });
 });
@@ -19252,6 +19255,7 @@ var CreateForm = function CreateForm(_ref) {
       color: "primary",
       variant: "contained",
       href: "/",
+      className: classes.button,
       onClick: create,
       onKeyDown: keydownEvent3,
       onKeyUp: keyUpEvent3,
@@ -19292,6 +19296,9 @@ var useStyles = (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["defaul
   return (0,_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__["default"])({
     textArea: {
       marginRight: theme.spacing(2)
+    },
+    button: {
+      marginTop: theme.spacing(1)
     }
   });
 });
@@ -19453,6 +19460,7 @@ var EditModal = function EditModal(_ref) {
             return e.stopPropagation();
           },
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
+            onSubmit: updateTask,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
               id: "title2",
               label: "title",
@@ -19477,6 +19485,7 @@ var EditModal = function EditModal(_ref) {
               id: "button2",
               color: "primary",
               variant: "contained",
+              className: classes.button,
               href: "/",
               onClick: updateTask,
               onKeyDown: keydownEvent3,

@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) =>
         textArea: {
             marginRight: theme.spacing(2),
         },
+        button: {
+            marginTop: theme.spacing(1),
+        },
     })
 );
 
@@ -150,6 +153,7 @@ const CreateForm = ({ inputChange, createTask, formData }) => {
                 color="primary"
                 variant="contained"
                 href="/"
+                className={classes.button}
                 onClick={create}
                 onKeyDown={keydownEvent3}
                 onKeyUp={keyUpEvent3}
