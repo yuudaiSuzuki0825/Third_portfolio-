@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme) =>
         textArea: {
             marginRight: theme.spacing(2),
         },
+        button: {
+            marginTop: theme.spacing(1),
+        },
     })
 );
 
@@ -168,7 +171,7 @@ const EditModal = ({ show, setShow, task, editData, setEditData }) => {
             <div id="overlay" onClick={closeModal}>
                 {/* モーダルウインドウ内部がクリックされても閉じてしまわないようにしている（e.stopPropagation()がその処理を行っている）。 */}
                 <div id="modalContent" onClick={(e) => e.stopPropagation()}>
-                    <form>
+                    <form onSubmit={updateTask}>
                         <TextField
                             id="title2"
                             label="title"
@@ -195,6 +198,7 @@ const EditModal = ({ show, setShow, task, editData, setEditData }) => {
                             id="button2"
                             color="primary"
                             variant="contained"
+                            className={classes.button}
                             href="/"
                             onClick={updateTask}
                             onKeyDown={keydownEvent3}

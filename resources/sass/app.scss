@@ -161,7 +161,6 @@ li {
 
     #modalContent {
         z-index: 1000;
-        width: 50%;
         padding: 1em;
         background: #fff;
     }
@@ -175,5 +174,13 @@ footer {
 @media screen and (max-width: 850px) {
     .container {
         max-width: 95%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #overlay {
+        #modalContent {
+            width: 95%;
+        }
     }
 }
